@@ -8,7 +8,7 @@ def calculate_HB(P,D,d):
     den = 3.14*D*(D-math.sqrt(D*D - d*d))
     return num/den
 
-def single(input_path,calibration,output_path,diameter_of_indenter,applied_load):
+def single(input_path,calibration,output_path,diameter_of_indenter,applied_load,method):
     # load the image, convert it to grayscale, and blur it slightly
     print(type(calibration))
     reference_mm_per_pixels = float(calibration)
@@ -37,13 +37,20 @@ def single(input_path,calibration,output_path,diameter_of_indenter,applied_load)
             continue
         print(c[1])
         print("Area Of Contour",cv2.contourArea(c))
-        box = cv2.minAreaRect(c)
-        box = cv2.boxPoints(box)
-        print("Co-ordinates of Rectangle",box)
-        cX = np.average(box[:,0])
-        print(cX)
-        cY = np.average(box[:,1])
-        r = math.sqrt((cX-c[4][0][0])**2 + (cY-c[4][0][1])**2)
+        if method == "square":
+            box = cv2.minAreaRect(c)
+            box = cv2.boxPoints(box)
+            print("Co-ordinates of Rectangle",box)
+            cX = np.average(box[:,0])
+            print(cX)
+            cY = np.average(box[:,1])
+            r = math.sqrt((cX-c[4][0][0])**2 + (cY-c[4][0][1])**2)
+        elif method == "circle":
+            (x,y),radius = cv2.minEnclosingCircle(c)
+            center = (int(x),int(y))
+            r = int(radius)
+            cv2.circle(image,center,r,(0,255,0),2)
+        
         Diameter_pixels = 2*r
         print("Diameter in pixels:",Diameter_pixels)
         print(type(Diameter_pixels))
@@ -51,6 +58,7 @@ def single(input_path,calibration,output_path,diameter_of_indenter,applied_load)
         print("Diameter in mm:",Diameter_mm)
         HB = calculate_HB(applied_load,diameter_of_indenter,Diameter_mm)
         print("HB:",HB)
+
 
     cv2.imwrite(output_path + "1.jpg",contourImage)
     cv2.waitKey(0)

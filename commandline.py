@@ -38,4 +38,4 @@ elif category == "4":
     applied_load = 3000
 
 if(type == "single"):
-    single(input,calibration,output,diameter_of_indenter,applied_load)
+    single(input,calibration,output,diameter_of_indenter,applied_load,method)
