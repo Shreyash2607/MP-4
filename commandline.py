@@ -1,4 +1,5 @@
 import argparse
+from batch import batch
 from single import single
 
 # construct the argument parse and parse the arguments
@@ -25,17 +26,28 @@ output = args["output"]
 category = args["category"]
 
 if category == "1":
+    HB_value = 99.6
+    diameter_calculated = 0.8694
     diameter_of_indenter = 2.5
     applied_load = 62.5
 elif category == "2":
+    diameter_calculated = 1.069
+    HB_value = 198.6
     diameter_of_indenter = 2.5
     applied_load = 187.5
 elif category == "3":
+    diameter_calculated = 2.1115
+    HB_value = 200.4
     diameter_of_indenter = 5
     applied_load = 750
 elif category == "4":
+    diameter_calculated = 4.0783
+    HB_value = 220
     diameter_of_indenter = 10
     applied_load = 3000
 
 if(type == "single"):
-    single(input,calibration,output,diameter_of_indenter,applied_load,method)
+    single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,diameter_calculated,method)
+
+if(type == "batch"):
+    batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,diameter_calculated,method)
