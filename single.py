@@ -140,7 +140,7 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
             (int(tltrX + 120), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,
             0.9, (0, 0, 255),2)
             cv2.putText(originalImg, str(HB),
-            (int(tltrX + 170), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,
+            (int(tltrX + 180), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,
             0.9, (255, 0, 0),2)
 
         #Counting Error Values
