@@ -6,7 +6,7 @@ import math
 import imutils
 import datetime
 
-
+#475.08984
 
 #Function to calculate Percentage Error
 def getPercentageError(orginalHB,calculatedHB):
@@ -32,9 +32,7 @@ def getDiameter():
 
     #Local Directories
     directories = [
-        'C:/Aditya/Assignments/Sem6/MP4/Script/CatImg/4/Clear',
-        'C:/Aditya/Assignments/Sem6/MP4/Script/CatImg/4/Not Clear',
-        'C:/Aditya/Assignments/Sem6/MP4/Script/CatImg/4/Noisy',
+       "C:/Aditya/Assignments/Sem6/MP4/Repository/MP-4/Camera2 Images/4"
     ]
 
     #Values to be inputed by user
@@ -95,9 +93,9 @@ def getDiameter():
                     
                 #Iterating Over All Contors
                 j=0
+                cnt =0
                 for c in contours:
-                    if pos!=j:
-                        j+=1
+                    if cv2.contourArea(c)<100:
                         continue
                     
                     #Calculating Radius Using Box Method
@@ -129,9 +127,12 @@ def getDiameter():
                     error = round(getPercentageError(givenHB[i],HB),4)
                     
                     #Printing Result in Form of Table 
-                    print(givenHB[i],'    ',HB,'        ',error, '        ',cv2.contourArea(c),'          ',filename,'     ')
-                    sumdia += Diameter_pixels 
-
+                    
+                    print(givenHB[i],'    ',HB,'        ',error, '        ',Diameter_pixels,'          ',filename,'     ',cnt)
+                     
+                    if(Diameter_pixels>412 and Diameter_pixels<500):
+                        sumdia += Diameter_pixels
+                        print(Diameter_pixels)
 
                     #Counting Error Values
                     if(error>3):
@@ -167,15 +168,15 @@ def getDiameter():
                         (0, 255, 0))
                     cv2.line(originalImg, (int(tlblX), int(tlblY)), (int(trbrX), int(trbrY)),
                         (0, 255, 0))
-                    cv2.putText(originalImg, "{:.2f}mm".format(Diameter_mm),
+                    cv2.putText(originalImg, str(cnt),
                     (int(tltrX+15), int(tltrY+20)), cv2.FONT_HERSHEY_SIMPLEX,
                     0.9, (0, 0, 255),2)
                     
                     
                     #Storing Result Image
-                    name = './Result/IMGRes' +str(cnt) +'.jpg'
+                    name = './Result/' + str(cnt) +filename 
                     cnt += 1
-                    #cv2.imwrite(str(name),originalImg)
+                    cv2.imwrite(str(name),originalImg)
 
                     cv2.waitKey(0)
                     j += 1
@@ -185,7 +186,7 @@ def getDiameter():
 
     #Error Count and Average    
     print('Error Count : ',ecnt,'/46')
-    print('Avg : ',sumdia/42)
+    print('Avg : ',sumdia/9)
 
 
 getDiameter()

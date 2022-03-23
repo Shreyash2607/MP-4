@@ -6,6 +6,7 @@ import math
 import imutils
 import datetime
 
+#220.02669
 
 
 #Function to calculate Percentage Error
@@ -31,10 +32,7 @@ def getDiameter():
 
     #Local Directories
     directories = [
-    'C:/Aditya/Assignments/Sem6/MP4/Script/CatImg/3/Clear',
-    'C:/Aditya/Assignments/Sem6/MP4/Script/CatImg/3/Cut',
-    'C:/Aditya/Assignments/Sem6/MP4/Script/CatImg/3/Noisy',
-    'C:/Aditya/Assignments/Sem6/MP4/Script/CatImg/3/Not Clear',
+    "C:/Aditya/Assignments/Sem6/MP4/Repository/MP-4/Camera2 Images/3"
 
     ]
 
@@ -96,8 +94,7 @@ def getDiameter():
                 #Iterating Over All Contors
                 j=0
                 for c in contours:
-                    if pos!=j:
-                        j+=1
+                    if cv2.contourArea(c)<100:
                         continue
                     
                     #Calculating Radius Using Box Method
@@ -128,9 +125,10 @@ def getDiameter():
                     #Finding Percentage Error
                     error = round(getPercentageError(givenHB[i],HB),4)
                     
-                    #Printing Result in Form of Table 
-                    print(givenHB[i],'    ',HB,'        ',error, '        ',cv2.contourArea(c),'          ',filename,'     ')
-                    sumdia += Diameter_pixels 
+                    #Printing Result in Form of Table
+                    if(Diameter_pixels>200 and Diameter_pixels<300): 
+                        print(givenHB[i],'    ',HB,'        ',error, '        ',Diameter_pixels,'          ',filename,'     ')
+                        sumdia += Diameter_pixels 
 
 
                     #Counting Error Values
@@ -185,6 +183,6 @@ def getDiameter():
 
     #Error Count and Average    
     print('Error Count : ',ecnt,'/46')
-    print('Avg : ',sumdia/40)
+    print('Avg : ',sumdia/27)
         
 getDiameter()

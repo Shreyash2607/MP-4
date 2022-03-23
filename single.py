@@ -12,11 +12,13 @@ def getPercentageError(orginalHB,calculatedHB):
     return (abs(calculatedHB-orginalHB)/(orginalHB))*100
 
 def calculate_HB(P,D,d):
+    if d>D:
+        return -1
     num = 2*P
     den = 3.14*D*(D-math.sqrt(D*D - d*d))
     return num/den
 
-def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,diameter_calculated,method):
+def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,method,std_mean_diameter):
     image = cv2.imread(input)
     originalImg = image
     calibration = float(calibration)
@@ -90,21 +92,21 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,d
             centery = tlblY
 
             # draw the midpoints on the image
-            cv2.drawContours(originalImg, [box.astype("int")], -1, (0, 255, 0), 2)
+            #cv2.drawContours(originalImg, [box.astype("int")], -1, (0, 255, 0), 2)
                 #Looping over the original points and draw them
-            for (x, y) in box:
-                cv2.circle(originalImg, (int(x), int(y)), 5, (0, 0, 255), -1)
+            # for (x, y) in box:
+            #     cv2.circle(originalImg, (int(x), int(y)), 5, (0, 0, 255), -1)
 
             #Drawing Cicle by joining points 
-            cv2.circle(originalImg, (int(tltrX), int(tltrY)), 5, (255, 0, 0), -1)
-            cv2.circle(originalImg, (int(blbrX), int(blbrY)), 5, (255, 0, 0), -1)
-            cv2.circle(originalImg, (int(tlblX), int(tlblY)), 5, (255, 0, 0), -1)
-            cv2.circle(originalImg, (int(trbrX), int(trbrY)), 5, (255, 0, 0), -1)
+            # cv2.circle(originalImg, (int(tltrX), int(tltrY)), 5, (255, 0, 0), -1)
+            # cv2.circle(originalImg, (int(blbrX), int(blbrY)), 5, (255, 0, 0), -1)
+            # cv2.circle(originalImg, (int(tlblX), int(tlblY)), 5, (255, 0, 0), -1)
+            # cv2.circle(originalImg, (int(trbrX), int(trbrY)), 5, (255, 0, 0), -1)
 
-            cv2.line(originalImg, (int(tltrX), int(tltrY)), (int(blbrX), int(blbrY)),
-            (0, 255, 0))
-            cv2.line(originalImg, (int(tlblX), int(tlblY)), (int(trbrX), int(trbrY)),
-            (0, 255, 0))
+            # cv2.line(originalImg, (int(tltrX), int(tltrY)), (int(blbrX), int(blbrY)),
+            # (0, 255, 0))
+            # cv2.line(originalImg, (int(tlblX), int(tlblY)), (int(trbrX), int(trbrY)),
+            # (0, 255, 0))
             
 
         Diameter_pixels = 2*radius
@@ -113,25 +115,33 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,d
         caliberationValue = calibration
 
         #Diamter Value Calculated Using Formula 
-        diameterValue = diameter_calculated
+        #diameterValue = diameter_calculated
         
 
-        reference_mm_per_pixels = diameterValue/caliberationValue
-        
+        #reference_mm_per_pixels = diameterValue/caliberationValue
+        #reference_mm_per_pixels = Diameter_pixels/caliberationValue
+        reference_mm_per_pixels = caliberationValue/std_mean_diameter
         #Conversion of Diameter in mm 
         Diameter_mm = reference_mm_per_pixels * Diameter_pixels
         
         #Calculating HB
         HB = calculate_HB(applied_load,diameter_of_indenter,Diameter_mm)
+        if HB is -1:
+            continue
         HB = round(HB,4)
 
         #Finding Percentage Error
         error = round(getPercentageError(HB_value,HB),4)
         
         #Printing Result in Form of Table
-        if(error<20): 
+        if(error<5): 
             print(HB_value,'    ',HB,'        ',error, '        ',cv2.contourArea(c),'     ',cnt)
-        
+            cv2.putText(originalImg, str(cnt),
+            (int(tltrX + 120), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,
+            0.9, (0, 0, 255),2)
+            cv2.putText(originalImg, str(HB),
+            (int(tltrX + 170), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,
+            0.9, (255, 0, 0),2)
 
         #Counting Error Values
         if(error>3):
@@ -140,13 +150,13 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,d
 
         #Drawing lines between the midpoints
         
-        cv2.putText(originalImg, str(cnt),
-            (int(centerx + 15), int(centery + 20)), cv2.FONT_HERSHEY_SIMPLEX,
-            0.9, (0, 0, 255),2)
+        # cv2.putText(originalImg, str(cnt),
+        #     (int(centerx + 15), int(centery + 20)), cv2.FONT_HERSHEY_SIMPLEX,
+        #     0.9, (0, 0, 255),2)
         
         
         #Storing Result Image
-        name = './Result/Single/Result.jpg' 
+        name = './Result/Single/'+output 
         cnt += 1
         cv2.imwrite(str(name),originalImg)
 

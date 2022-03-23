@@ -26,13 +26,14 @@ def midpoint(ptA, ptB):
 
 directories = [
     
-    'C:/Aditya/Assignments/Sem6/MP4/Script/CatImg/1/Noisy/Single',
+    "C:/Aditya/Assignments/Sem6/MP4/Repository/MP-4/Camera2 Images/1"
 
 ]
 givenHB = [99.6]
 givenwt = [62.5]
 givenDD = [2.5]
 i=0 
+sum = 0
 ecnt = 0
 cnt = 0
 for directory in directories:
@@ -116,7 +117,8 @@ for directory in directories:
                 HB = round(HB,4)
                 error = round(getPercentageError(givenHB[i],HB),4)
                 #print("HB:",HB)
-                if(error < 20 and error>-20):
+                if(Diameter_pixels<95 and Diameter_pixels>70):
+                    sum +=Diameter_pixels
                     print(givenHB[i],'    ',HB,'        ',error, '        ',cv2.contourArea(c),'          ',filename,'    ',a,'           ',Diameter_pixels)
                 
 
@@ -160,7 +162,7 @@ for directory in directories:
                 a +=1
                 # cv2.imshow('Res',originalImg)
                  
-                name = './Result/1/IMGRes' +str(cnt) +'.jpg'
+                name = './Result/' +str(cnt) +'.jpg'
                 cnt += 1
                 cv2.imwrite(str(name),originalImg)
 
@@ -171,4 +173,5 @@ for directory in directories:
             continue
     
 print('Error Count : ',ecnt,'/40')
+print("AVG : ",sum/23)
     
