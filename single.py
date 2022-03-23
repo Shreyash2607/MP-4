@@ -110,16 +110,15 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
             
 
         Diameter_pixels = 2*radius
-        
+        dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
+        dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
+
+        #Diameter_pixels = 2*radius
+        Diameter_pixels = (dB+dA)/2
         #Caliberation Value Inputed By User
         caliberationValue = calibration
 
-        #Diamter Value Calculated Using Formula 
-        #diameterValue = diameter_calculated
         
-
-        #reference_mm_per_pixels = diameterValue/caliberationValue
-        #reference_mm_per_pixels = Diameter_pixels/caliberationValue
         reference_mm_per_pixels = caliberationValue/std_mean_diameter
         #Conversion of Diameter in mm 
         Diameter_mm = reference_mm_per_pixels * Diameter_pixels

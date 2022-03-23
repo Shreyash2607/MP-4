@@ -29,7 +29,7 @@ if category == "1":
     #diameter_calculated = 0.8694
     diameter_of_indenter = 2.5
     applied_load = 62.5
-    std_mean_diameter = 54.115386
+    std_mean_diameter = 88
     calibration = 0.8694
 elif category == "2":
     #diameter_calculated = 1.069
