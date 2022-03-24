@@ -4,6 +4,7 @@ from cv2 import minAreaRect
 import numpy as np
 import math
 import imutils
+from scipy.spatial import distance as dist
 import datetime
 
 #475.08984
@@ -128,10 +129,10 @@ def getDiameter():
                     
                     #Printing Result in Form of Table 
                     
-                    print(givenHB[i],'    ',HB,'        ',error, '        ',Diameter_pixels,'          ',filename,'     ',cnt)
+                    #print(givenHB[i],'    ',HB,'        ',error, '        ',Diameter_pixels,'          ',filename,'     ',cnt)
                      
                     if(Diameter_pixels>412 and Diameter_pixels<500):
-                        sumdia += Diameter_pixels
+                        # sumdia += Diameter_pixels
                         print(Diameter_pixels)
 
                     #Counting Error Values
@@ -149,6 +150,13 @@ def getDiameter():
                     (blbrX, blbrY) = midpoint(bl, br)
                     (tlblX, tlblY) = midpoint(tl, bl)
                     (trbrX, trbrY) = midpoint(tr, br)
+                    dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
+                    dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
+                    Diameter_pixels = (dB+dA)/2
+                    #Printing Result in Form of Table
+                    if(Diameter_pixels>420 and Diameter_pixels<450): 
+                        print(givenHB[i],'    ',HB,'        ',error, '        ',Diameter_pixels,'          ',filename,'     ')
+                        sumdia += Diameter_pixels
 
                     # draw the midpoints on the image
                     cv2.drawContours(originalImg, [box.astype("int")], -1, (0, 255, 0), 2)
@@ -168,7 +176,7 @@ def getDiameter():
                         (0, 255, 0))
                     cv2.line(originalImg, (int(tlblX), int(tlblY)), (int(trbrX), int(trbrY)),
                         (0, 255, 0))
-                    cv2.putText(originalImg, str(cnt),
+                    cv2.putText(originalImg, str(Diameter_pixels),
                     (int(tltrX+15), int(tltrY+20)), cv2.FONT_HERSHEY_SIMPLEX,
                     0.9, (0, 0, 255),2)
                     
@@ -186,7 +194,7 @@ def getDiameter():
 
     #Error Count and Average    
     print('Error Count : ',ecnt,'/46')
-    print('Avg : ',sumdia/9)
+    print('Avg : ',sumdia/8)
 
 
 getDiameter()

@@ -5,6 +5,7 @@ import numpy as np
 import math
 import imutils
 import datetime
+from scipy.spatial import distance as dist
 
 #220.02669
 
@@ -125,10 +126,7 @@ def getDiameter():
                     #Finding Percentage Error
                     error = round(getPercentageError(givenHB[i],HB),4)
                     
-                    #Printing Result in Form of Table
-                    if(Diameter_pixels>200 and Diameter_pixels<300): 
-                        print(givenHB[i],'    ',HB,'        ',error, '        ',Diameter_pixels,'          ',filename,'     ')
-                        sumdia += Diameter_pixels 
+                     
 
 
                     #Counting Error Values
@@ -146,6 +144,13 @@ def getDiameter():
                     (blbrX, blbrY) = midpoint(bl, br)
                     (tlblX, tlblY) = midpoint(tl, bl)
                     (trbrX, trbrY) = midpoint(tr, br)
+                    dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
+                    dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
+                    Diameter_pixels = (dB+dA)/2
+                    #Printing Result in Form of Table
+                    if(Diameter_pixels>200 and Diameter_pixels<300): 
+                        print(givenHB[i],'    ',HB,'        ',error, '        ',Diameter_pixels,'          ',filename,'     ')
+                        sumdia += Diameter_pixels
 
                     # draw the midpoints on the image
                     cv2.drawContours(originalImg, [box.astype("int")], -1, (0, 255, 0), 2)

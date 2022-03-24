@@ -5,7 +5,7 @@ import numpy as np
 import math
 import imutils
 import datetime
-
+from scipy.spatial import distance as dist
 
 def getPercentageError(orginalHB,calculatedHB):
     return ((calculatedHB-orginalHB)/(orginalHB))*100
@@ -117,9 +117,7 @@ for directory in directories:
                 HB = round(HB,4)
                 error = round(getPercentageError(givenHB[i],HB),4)
                 #print("HB:",HB)
-                if(Diameter_pixels<95 and Diameter_pixels>70):
-                    sum +=Diameter_pixels
-                    print(givenHB[i],'    ',HB,'        ',error, '        ',cv2.contourArea(c),'          ',filename,'    ',a,'           ',Diameter_pixels)
+                
                 
 
 # 0.8694 mm
@@ -135,10 +133,17 @@ for directory in directories:
                 (tl, tr, br, bl) = box
                 (tltrX, tltrY) = midpoint(tl, tr)
                 (blbrX, blbrY) = midpoint(bl, br)
+                
 
 
                 (tlblX, tlblY) = midpoint(tl, bl)
                 (trbrX, trbrY) = midpoint(tr, br)
+                dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
+                dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
+                if(Diameter_pixels<95 and Diameter_pixels>70):
+                    cnt += 1
+                    sum +=Diameter_pixels
+                    print(givenHB[i],'    ',HB,'        ',error, '        ',cv2.contourArea(c),'          ',filename,'    ',a,'           ',Diameter_pixels)
                 # draw the midpoints on the image
                 cv2.drawContours(originalImg, [box.astype("int")], -1, (0, 255, 0), 2)
 	            # loop over the original points and draw them
@@ -163,7 +168,7 @@ for directory in directories:
                 # cv2.imshow('Res',originalImg)
                  
                 name = './Result/' +str(cnt) +'.jpg'
-                cnt += 1
+                
                 cv2.imwrite(str(name),originalImg)
 
                 cv2.waitKey(0)
@@ -173,5 +178,5 @@ for directory in directories:
             continue
     
 print('Error Count : ',ecnt,'/40')
-print("AVG : ",sum/23)
+print("AVG : ",sum/cnt)
     
