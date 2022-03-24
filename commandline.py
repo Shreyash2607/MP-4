@@ -29,7 +29,7 @@ if category == "1":
     #diameter_calculated = 0.8694
     diameter_of_indenter = 2.5
     applied_load = 62.5
-    std_mean_diameter = 88
+    std_mean_diameter = 89.909425
     calibration = 0.8694
 elif category == "2":
     #diameter_calculated = 1.069
@@ -43,14 +43,16 @@ elif category == "3":
     HB_value = 200.4
     diameter_of_indenter = 5
     applied_load = 750
-    std_mean_diameter = 220.02669
+    std_mean_diameter = 229.287820
+    #std_mean_diameter = 220.02669
     calibration = 2.1115
 elif category == "4":
     diameter_calculated = 4.0783
     HB_value = 220
     diameter_of_indenter = 10
     applied_load = 3000
-    std_mean_diameter = 429.44697
+    std_mean_diameter = 429.08119
+    # std_mean_diameter = 429.44697
     calibration = 4.0783
 
 if(type == "single"):
