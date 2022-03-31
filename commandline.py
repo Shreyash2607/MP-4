@@ -30,11 +30,7 @@ if category == "1":
     HB_value = 99.6
     diameter_of_indenter = 2.5
     applied_load = 62.5
-<<<<<<< HEAD
     std_mean_diameter = 89.909425
-=======
-    std_mean_diameter = 89
->>>>>>> 05064050839ab2ef4c336c66c45917cc00c2fc40
     calibration = 0.8694
 elif category == "2":
     #diameter_calculated = 1.069

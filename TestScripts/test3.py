@@ -148,7 +148,8 @@ def getDiameter():
                     dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
                     Diameter_pixels = (dB+dA)/2
                     #Printing Result in Form of Table
-                    if(Diameter_pixels>200 and Diameter_pixels<300): 
+                    if(Diameter_pixels>200 and Diameter_pixels<290): 
+                        cnt += 1
                         print(givenHB[i],'    ',HB,'        ',error, '        ',Diameter_pixels,'          ',filename,'     ')
                         sumdia += Diameter_pixels
 
@@ -177,7 +178,7 @@ def getDiameter():
                     
                     #Storing Result Image
                     name = './Result/IMGRes' +str(cnt) +'.jpg'
-                    cnt += 1
+                    
                     #cv2.imwrite(str(name),originalImg)
 
                     cv2.waitKey(0)
@@ -188,6 +189,6 @@ def getDiameter():
 
     #Error Count and Average    
     print('Error Count : ',ecnt,'/46')
-    print('Avg : ',sumdia/27)
+    print('Avg : ',sumdia/cnt)
         
 getDiameter()
