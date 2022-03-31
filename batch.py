@@ -133,8 +133,8 @@ def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,me
                         dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
                         dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
 
-                    #Diameter_pixels = 2*radius
-                    Diameter_pixels = (dB+dA)/2
+                    Diameter_pixels = 2*radius
+                    #Diameter_pixels = (dB+dA)/2
                    
                     #Caliberation Value Inputed By User
                     caliberationValue = calibration
@@ -156,7 +156,7 @@ def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,me
                     error = round(getPercentageError(HB_value,HB),4)
                     
                     #Printing Result in Form of Table
-                    if(error<5): 
+                    if(error<10): 
                         print(HB_value,'    ',HB,'        ',error, '        ',cv2.contourArea(c),'     ',cnt)
                         cv2.putText(originalImg, str(cnt),
                         (int(centerx + 120), int(centery + 200)), cv2.FONT_HERSHEY_SIMPLEX,
@@ -180,10 +180,15 @@ def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,me
                         (0, 255, 0))
                         cv2.line(originalImg, (int(tlblX), int(tlblY)), (int(trbrX), int(trbrY)),
                         (0, 255, 0))
+                        remark="Accept"
                         if(error>3):
                             ecnt +=1
+                            remark="Reject"
                         name = output + filename
                         cnt += 1
+                        cv2.putText(originalImg, str(remark),
+                            (int(centerx + 200), int(centery + 250)), cv2.FONT_HERSHEY_SIMPLEX,
+                            0.9, (255, 0, 0),2)
                         cv2.imwrite(str(name),originalImg)
 
                     #Counting Error Values

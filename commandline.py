@@ -44,7 +44,7 @@ elif category == "3":
     HB_value = 200.4
     diameter_of_indenter = 5
     applied_load = 750
-    std_mean_diameter = 229.287820
+    std_mean_diameter = 218.19523
     #std_mean_diameter = 220.02669
     calibration = 2.1115
 elif category == "4":
