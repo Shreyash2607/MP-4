@@ -3,7 +3,7 @@ from cv2 import minAreaRect
 import numpy as np
 import math
 import imutils
-
+from scipy.spatial import distance as dist
 #Function to get midpoint
 def midpoint(ptA, ptB):
 	return ((ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5)
@@ -18,7 +18,7 @@ def calculate_HB(P,D,d):
     den = 3.14*D*(D-math.sqrt(D*D - d*d))
     return num/den
 
-def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,method,std_mean_diameter):
+def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,method,std_mean_diameter,lower,upper):
     image = cv2.imread(input)
     originalImg = image
     calibration = float(calibration)
@@ -103,45 +103,61 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
             # cv2.circle(originalImg, (int(tlblX), int(tlblY)), 5, (255, 0, 0), -1)
             # cv2.circle(originalImg, (int(trbrX), int(trbrY)), 5, (255, 0, 0), -1)
 
-            # cv2.line(originalImg, (int(tltrX), int(tltrY)), (int(blbrX), int(blbrY)),
-            # (0, 255, 0))
-            # cv2.line(originalImg, (int(tlblX), int(tlblY)), (int(trbrX), int(trbrY)),
-            # (0, 255, 0))
+            # cv2.line(originalImg, (int(tltrX), int(tltrY)), (int(blbrX), int(blbrY)),(0, 255, 0))
+            # cv2.line(originalImg, (int(tlblX), int(tlblY)), (int(trbrX), int(trbrY)),(0, 255, 0))
             
 
-        Diameter_pixels = 2*radius
+        #Diameter_pixels = 2*radius
         dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
         dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
 
         #Diameter_pixels = 2*radius
-        Diameter_pixels = (dB+dA)/2
+        Diameter_pixels = (dA+dB)/2
         #Caliberation Value Inputed By User
         caliberationValue = calibration
-
+        calibrationN= 0.00780  #default value is 0.00764
         
-        reference_mm_per_pixels = caliberationValue/std_mean_diameter
+        #reference_mm_per_pixels = caliberationValue/std_mean_diameter
         #Conversion of Diameter in mm 
-        Diameter_mm = reference_mm_per_pixels * Diameter_pixels
-        
+        #Diameter_mm = reference_mm_per_pixels * Diameter_pixels
+        reference_mm_per_pixels = Diameter_pixels/caliberationValue
+        #Diameter_mm = Diameter_pixels / reference_mm_per_pixels
+        Diameter_ma = dA / reference_mm_per_pixels
+        Diameter_mb = dB / reference_mm_per_pixels
+        Diameter_mc = Diameter_pixels *calibrationN
         #Calculating HB
-        HB = calculate_HB(applied_load,diameter_of_indenter,Diameter_mm)
+        HB = calculate_HB(applied_load,diameter_of_indenter,Diameter_mc)
         if HB is -1:
             continue
         HB = round(HB,4)
 
         #Finding Percentage Error
         error = round(getPercentageError(HB_value,HB),4)
-        
+        status="Not Accept"
         #Printing Result in Form of Table
-        if(error<5): 
-            print(HB_value,'    ',HB,'        ',error, '        ',cv2.contourArea(c),'     ',cnt)
-            cv2.putText(originalImg, str(cnt),
-            (int(tltrX + 120), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,
-            0.9, (0, 0, 255),2)
-            cv2.putText(originalImg, str(HB),
-            (int(tltrX + 180), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,
-            0.9, (255, 0, 0),2)
+        if(error<10): 
+            #print(HB_value,'    ',HB,'        ',error, '        ',cv2.contourArea(c),'     ',cnt)
+            print(Diameter_pixels)
+            x = HB>lower
+            y = HB<upper
+            z= x & y
+            if  z:
+                status ="ACCEPT"
+            print(HB_value,'    ',HB,'        ',error,'         ',status)
+            cv2.drawContours(originalImg, [box.astype("int")], -1, (0, 255, 0), 2)
+            #Drawing Cicle by joining points 
+            cv2.circle(originalImg, (int(tltrX), int(tltrY)), 5, (255, 0, 0), -1)
+            cv2.circle(originalImg, (int(blbrX), int(blbrY)), 5, (255, 0, 0), -1)
+            cv2.circle(originalImg, (int(tlblX), int(tlblY)), 5, (255, 0, 0), -1)
+            cv2.circle(originalImg, (int(trbrX), int(trbrY)), 5, (255, 0, 0), -1)
 
+            cv2.line(originalImg, (int(tltrX), int(tltrY)), (int(blbrX), int(blbrY)),(0, 255, 0))
+            cv2.line(originalImg, (int(tlblX), int(tlblY)), (int(trbrX), int(trbrY)),(0, 255, 0))
+            cv2.putText(originalImg, "{:.1f}mm".format(Diameter_ma),(int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,0.65, (255, 255, 255), 2)
+            cv2.putText(originalImg, "{:.1f}mm".format(Diameter_mb),(int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,0.65, (255, 255, 255), 2)            
+            cv2.putText(originalImg, str(cnt),(int(tltrX + 120), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (0, 0, 255),2)
+            cv2.putText(originalImg, str(HB),(int(tltrX + 180), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (255, 0, 0),2)
+             
         #Counting Error Values
         if(error>3):
             ecnt +=1 
