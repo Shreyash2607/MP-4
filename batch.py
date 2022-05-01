@@ -9,11 +9,14 @@ import datetime
 from scipy.spatial import distance as dist
 centerx = 0
 centery = 0
-
+listA=[]
 #Function to calculate Percentage Error
 def getPercentageError(orginalHB,calculatedHB):
     return (abs(calculatedHB-orginalHB)/(orginalHB))*100
-
+#Mean of observation
+def Average(lst):
+    #print(len(lst))
+    return sum(lst) / len(lst)
 #Function to caluculate HB
 def calculate_HB(P,D,d):
     if d>D:
@@ -30,7 +33,8 @@ def midpoint(ptA, ptB):
 	return ((ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5)
 
 #Function to get Diameter
-def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,method,std_mean_diameter):
+
+def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,method,lower,upper):
 
     calibration = float(calibration)
     #Local Directories
@@ -52,11 +56,12 @@ def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,me
     for directory in directories:
         
         print('\n'+ directory + '\n') 
+        print("filename",'   ',"Diameter_p",'  ',"Diameter_mm",'     ',"Actual_HB",'    ',"Predi_HB",'        ',"Error",'         ',"status")
         for filename in os.listdir(directory):
-            if filename.endswith(".jpg"):
+            if filename.endswith(".tif"):
                 
                 input_path = os.path.join(directory, filename)
-                path = "./brinell images/" + str(filename)
+                #path = "./10-3000-288.4BHN/" + str(filename)
                 
                 image = cv2.imread(input_path)
                 originalImg = image
@@ -77,8 +82,8 @@ def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,me
                 #Drawing Contors
                 contourImage = cv2.drawContours(mask, contours,-1, (255,255,0), 3)
                 duplicateImg = contourImage
-                name = './Result/CountourImage/' +str(filename) +'.jpg'
-                cv2.imwrite(str(name),duplicateImg)
+                #name = './Result/CountourImage/' +str(filename) +'.jpg'
+                #cv2.imwrite(str(name),duplicateImg)
         
 
                 maxArea = 0
@@ -105,9 +110,10 @@ def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,me
                         (x,y),radius = cv2.minEnclosingCircle(c)
                         center = (int(x),int(y))
                         radius = int(radius)
-                        cv2.circle(originalImg,center,radius,(0,255,0),2)
-                        centerx = x 
-                        centery = y
+                        D=2*radius
+                        # cv2.circle(originalImg,center,radius,(0,255,0),2)
+                        # centerx = x 
+                        # centery = y
                         
                     else:
                         box = cv2.minAreaRect(c)
@@ -115,10 +121,11 @@ def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,me
 
                         cX = np.average(box[:,0])
                         cY = np.average(box[:,1])
-                        radius = math.sqrt((cX-c[4][0][0])**2 + (cY-c[4][0][1])**2)
+                        #radius = math.sqrt((cX-c[4][0][0])**2 + (cY-c[4][0][1])**2)
                         box = cv2.minAreaRect(c)
                         box = cv2.cv.BoxPoints(box) if imutils.is_cv2() else cv2.boxPoints(box)
-                        box = np.array(box, dtype="int")
+                        #box = np.array(box, dtype="float")
+                        box = np.int64(box)
 
                         #Finding Midpoints of side of Box
                         (tl, tr, br, bl) = box
@@ -132,38 +139,55 @@ def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,me
                         
                         dA = dist.euclidean((tltrX, tltrY), (blbrX, blbrY))
                         dB = dist.euclidean((tlblX, tlblY), (trbrX, trbrY))
+                        D = (dB+dA)/2
 
-                    Diameter_pixels = 2*radius
-                    #Diameter_pixels = (dB+dA)/2
+                    Diameter_pixels = D
+                    #
                    
                     #Caliberation Value Inputed By User
-                    caliberationValue = calibration
-
-                    reference_mm_per_pixels = caliberationValue/std_mean_diameter
+                    #caliberationValue = calibration
+                    calibrationN= calibration
+                    Diameter_mc = Diameter_pixels *calibrationN
+                    Diameter_ma = Diameter_mc
+                    Diameter_mb = Diameter_mc
+                    #reference_mm_per_pixels = caliberationValue/std_mean_diameter
                     #Conversion of Diameter in mm
-                    Diameter_mm = reference_mm_per_pixels * Diameter_pixels
+                    #Diameter_mm = reference_mm_per_pixels * Diameter_pixels
                     
                     #Conversion of Diameter in mm 
-                    Diameter_mm = reference_mm_per_pixels * Diameter_pixels
+                    #Diameter_mm = reference_mm_per_pixels * Diameter_pixels
                     
                     #Calculating HB
-                    HB = calculate_HB(applied_load,diameter_of_indenter,Diameter_mm)
+                    Diameter_mc=float("{:.4f}".format(Diameter_mc))
+                    HB = calculate_HB(applied_load,diameter_of_indenter,Diameter_mc)
                     if HB is -1:
                         continue
                     HB = round(HB,4)
 
                     #Finding Percentage Error
-                    error = round(getPercentageError(HB_value,HB),4)
-                    
+                    #error = round(getPercentageError(HB_value,HB),4)
+                    error =abs(HB-HB_value)
                     #Printing Result in Form of Table
-                    if(error<10): 
-                        print(HB_value,'    ',HB,'        ',error, '        ',cv2.contourArea(c),'     ',cnt)
-                        cv2.putText(originalImg, str(cnt),
-                        (int(centerx + 120), int(centery + 200)), cv2.FONT_HERSHEY_SIMPLEX,
-                            0.9, (0, 0, 255),2)
-                        cv2.putText(originalImg, str(HB),
-                            (int(centerx + 180), int(centery + 200)), cv2.FONT_HERSHEY_SIMPLEX,
-                            0.9, (255, 0, 0),2)
+                    if(error<3):
+                        #print(Diameter_pixels)
+                        #print(Diameter_mc)
+                        #print(radius*2*calibrationN)
+                        # #print(box)
+                        status="NA"
+                        listA.append(HB)
+                        if HB>lower and HB<upper:
+                            status ="AC"
+                            #listA.append(HB)
+                        else:
+                            cnt += 1
+                        print(filename,'   ',"{:.3f}PX".format(Diameter_pixels),'    ',"{:.1f}mm".format(Diameter_mc),'     ',HB_value,'    ',"{:.2f}".format(HB),'        ',"{:.2f}mm".format(error),'         ',status) 
+                        #print(HB_value,'    ',HB,'        ',error, '        ',cv2.contourArea(c),'     ',cnt)
+                        # cv2.putText(originalImg, str(cnt),
+                        # (int(centerx + 120), int(centery + 200)), cv2.FONT_HERSHEY_SIMPLEX,
+                        #     0.9, (0, 0, 255),2)
+                        # cv2.putText(originalImg, str(HB),
+                        #     (int(centerx + 180), int(centery + 200)), cv2.FONT_HERSHEY_SIMPLEX,
+                        #     0.9, (255, 0, 0),2)
                         #draw the midpoints on the image
                         cv2.drawContours(originalImg, [box.astype("int")], -1, (0, 255, 0), 2)
                          #Looping over the original points and draw them
@@ -180,15 +204,11 @@ def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,me
                         (0, 255, 0))
                         cv2.line(originalImg, (int(tlblX), int(tlblY)), (int(trbrX), int(trbrY)),
                         (0, 255, 0))
-                        remark="Accept"
-                        if(error>3):
-                            ecnt +=1
-                            remark="Reject"
                         name = output + filename
-                        cnt += 1
-                        cv2.putText(originalImg, str(remark),
-                            (int(centerx + 200), int(centery + 250)), cv2.FONT_HERSHEY_SIMPLEX,
-                            0.9, (255, 0, 0),2)
+                        cv2.putText(originalImg, "{:.1f}mm".format(Diameter_pixels),(int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,0.65, (255, 255, 255), 2)
+                        cv2.putText(originalImg, "{:.1f}mm".format(Diameter_pixels),(int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,0.65, (255, 255, 255), 2)            
+                        # cv2.putText(originalImg, str(cnt),(int(tltrX + 120), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (0, 0, 255),2)
+                        cv2.putText(originalImg, str(HB),(int(tltrX + 180), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (255, 0, 0),2)
                         cv2.imwrite(str(name),originalImg)
 
                     #Counting Error Values
@@ -213,9 +233,8 @@ def batch(input,calibration,output,diameter_of_indenter,applied_load,HB_value,me
         i+=1
 
     #Error Count and Average    
-    print('Error Count : ',ecnt)
+    #print('Error Count : ',ecnt)
+    average = Average(listA)
+    print(round(average, 2))
+    print(round(abs(HB_value-average),2))
     
-
-
-
-
