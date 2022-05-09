@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="114.001" height="90.264" viewBox="0 0 114.001 90.264">
+  <defs>
+    <filter id="Union_22" x="0" y="0" width="114.001" height="90.264" filterUnits="userSpaceOnUse">
+      <feOffset dx="-3" dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#575757"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Union_22)">
+    <path id="Union_22-2" data-name="Union 22" d="M15790,6749.371a7.428,7.428,0,0,1-1.545.163h-62.017a7.444,7.444,0,0,1-7.441-7.441v-44.649a7.442,7.442,0,0,1,7.441-7.441h24.8l9.927,9.922h24.8a7.442,7.442,0,0,1,7.441,7.441v7.441h7.426a7.437,7.437,0,0,1,6.311,11.378l-7.006,11.223a12,12,0,1,1-10.146,11.963Zm5.031-1.46v2.71a.58.58,0,0,0,.579.58h4.453v4.453a.581.581,0,0,0,.58.579h2.71a.58.58,0,0,0,.58-.579V6751.2h4.453a.58.58,0,0,0,.579-.58v-2.71a.582.582,0,0,0-.579-.58h-4.453v-4.453a.582.582,0,0,0-.58-.579h-2.71a.583.583,0,0,0-.58.579v4.453h-4.453A.582.582,0,0,0,15795.033,6747.911Zm-64.87-5.818h58.294l12.4-19.844h-58.727Zm-3.723-43.72v36.184l9.752-16.153a7.445,7.445,0,0,1,6.373-3.6h43.411v-6.513a.934.934,0,0,0-.933-.929h-26.96l-9.922-9.922h-20.789A.933.933,0,0,0,15726.44,6698.372Z" transform="translate(-15706.5 -6683.5)" fill="#f4f4f4" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+  </g>
+</svg>

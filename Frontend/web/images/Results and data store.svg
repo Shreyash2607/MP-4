@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="87.63" height="87.63" viewBox="0 0 87.63 87.63">
+  <defs>
+    <filter id="FontAwsome_window-restore_" x="0" y="0" width="87.63" height="87.63" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#575757"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#FontAwsome_window-restore_)">
+    <path id="FontAwsome_window-restore_2" data-name="FontAwsome (window-restore)" d="M69.63,6.528V45.695A6.529,6.529,0,0,1,63.1,52.222H56.574V23.935a10.894,10.894,0,0,0-10.88-10.88H17.407V6.528A6.529,6.529,0,0,1,23.935,0H63.1A6.529,6.529,0,0,1,69.63,6.528ZM52.222,23.935V63.1a6.529,6.529,0,0,1-6.528,6.528H6.528A6.529,6.529,0,0,1,0,63.1V23.935a6.529,6.529,0,0,1,6.528-6.528H45.695A6.529,6.529,0,0,1,52.222,23.935Zm-9.248,3.808a1.637,1.637,0,0,0-1.632-1.632H10.336A1.637,1.637,0,0,0,8.7,27.743v7.072H42.975Z" transform="translate(9 6)" fill="#f4f4f4"/>
+  </g>
+</svg>

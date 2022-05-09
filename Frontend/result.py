@@ -101,7 +101,7 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
                 error = round(getPercentageError(HB_value,HB),4)
                     
                             #Printing Result in Form of Table
-                if(error<100): 
+                if(error<3): 
                     #print(Diameter_pixels)
                     #print(Diameter_mc)
                     #print(radius*2*calibrationN)
@@ -158,7 +158,7 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
                             if HB is -1:
                                 continue
                             HB = round(HB,4)
-
+                            print('HB : ',HB)
                                     #Finding Percentage Error
                             error = round(getPercentageError(HB_value,HB),4)
                     
@@ -187,12 +187,12 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
                                 cv2.putText(originalImg, str(cnt),(int(tltrX + 120), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (0, 0, 255),2)
                                 cv2.putText(originalImg, str(HB),(int(tltrX + 180), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (255, 0, 0),2)
     
-        
-        #Storing Result Image
-        name = './Result/Single/'+output 
-        cnt += 1
-        cv2.imwrite(str(name),originalImg)
-        #cv2.imshow("Show",originalImg)
-        cv2.waitKey(0)
-        j += 1
+            return HB
+            #Storing Result Image
+            name = './Result/Single/'+output 
+            cnt += 1
+            cv2.imwrite(str(name),originalImg)
+            #cv2.imshow("Show",originalImg)
+            cv2.waitKey(0)
+            j += 1
 
