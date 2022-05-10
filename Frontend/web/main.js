@@ -80,11 +80,70 @@ async function saveSingleResult(event){
     console.log(hbvalue)
     var lowerRange = document.getElementById('range-from').value
     var higherRange = document.getElementById('range-to').value
+    var filename = document.getElementById('file-name').value
+    var jobname = document.getElementById('job-description').value
+    var custname = document.getElementById('cust-name').value
+    var custadd = document.getElementById('cust-address').value
+    var res = document.getElementById('result').value
 
-    
+    var testedby = document.getElementById('tested-by').value
+    var witnessedby = document.getElementById('witnessed-by').value
+    var aprovedby = document.getElementById('aproved-by').value
 
+
+    console.log("RECORD")
+
+    await eel.saveRecord(caliberation,indentor,load,hbvalue,lowerRange,higherRange,filename,jobname,custname,custadd,res,testedby,witnessedby,aprovedby)()
 
 }
+
+async function constructTable(selector) {
+
+    var list =  await eel.getData()()
+    console.log(list)
+             
+    // Getting the all column names
+    var cols = Headers(list, selector); 
+
+    // Traversing the JSON data
+    for (var i = 0; i < list.length; i++) {
+        var row = $('<tr/>');  
+        for (var colIndex = 0; colIndex < cols.length; colIndex++)
+        {
+            var val = list[i][cols[colIndex]];
+             
+            // If there is any key, which is matching
+            // with the column name
+            if (val == null) val = ""; 
+                row.append($('<td/>').html(val));
+        }
+         
+        // Adding each row to the table
+        $(selector).append(row);
+    }
+}
+ 
+function Headers(list, selector) {
+    var columns = [];
+    var header = $('<tr/>');
+     
+    for (var i = 0; i < list.length; i++) {
+        var row = list[i];
+         
+        for (var k in row) {
+            if ($.inArray(k, columns) == -1) {
+                columns.push(k);
+                 
+                // Creating the header
+                header.append($('<th/>').html(k));
+            }
+        }
+    }
+     
+    // Appending the header to the table
+    $(selector).append(header);
+        return columns;
+}      
 
 function py_video(flg) {
     alert("a")
@@ -98,4 +157,13 @@ eel.expose(updateImageSrc);
 function updateImageSrc(val) {
     let elem = document.getElementById('bg');
     elem.src = "data:image/jpeg;base64," + val
+}
+
+function printData()
+{
+   var divToPrint=document.getElementById("table");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
 }

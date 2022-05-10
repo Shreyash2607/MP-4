@@ -30,14 +30,47 @@ cam=None
 
 
 @eel.expose
-def saveRecord():
-    mydict = { "name": "John", "address": "Highway 37" }
-    x = mycol.insert_one(mydict)
+def saveRecord(caliberation,indentor,load,hbvalue,lowerRange,higherRange,filename,jobname,custname,custadd,res,testedby,witnessedby,aprovedby):
+    # mydict = { "name": "John", "address": "Highway 37" }
+    # x = mycol.insert_one(mydict)
+    print("RESULT")
+    print(caliberation,indentor,load,hbvalue,lowerRange,higherRange,filename,jobname,custname,custadd,res,testedby,witnessedby,aprovedby)
+    resdict = {
+    "filename":filename, 
+    "jobname":jobname ,
+    "customer-name":custname,
+    "customer-address": custadd,
+    "tested-by":testedby,
+    "witnessed-by":witnessedby,
+    "aprooved-by":aprovedby,
+    "calculated-hb":res,
+    "given-hb":hbvalue,
+    "diameter-of-indentor":indentor,
+    "caliberation-value":caliberation,
+    "load":load,
+    "lowerRange":lowerRange,
+    "higherRange":higherRange
+    }
+    x = mycol.insert_one(resdict)
+    print(x.inserted_id)
+
+@eel.expose
+def getData():
+    savedData = []
+    k = mycol.find({}, { 'filename': 1 })
+    print(k)
+    for x in mycol.find({}, { 'filename': 1 ,"tested-by":1,"given-hb":1,"calculated-hb":1}):
+        savedData.append(x)
+    
+    print(savedData)
+    return savedData
+
+
+
 
 
 @eel.expose
 def get_random_name():
-
     eel.prompt_alerts('Random name')
 
 
