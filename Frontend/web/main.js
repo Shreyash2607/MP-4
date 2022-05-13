@@ -167,3 +167,4 @@ function printData()
    newWin.print();
    newWin.close();
 }
+
