@@ -1,3 +1,4 @@
+from tkinter import N
 import eel
 import random
 from datetime import datetime
@@ -26,13 +27,17 @@ mycol = mydb["single"]
 
 capFram = None
 
-cam=None
-
+x=None
+camFrame=None
 
 @eel.expose
 def saveRecord(caliberation,indentor,load,hbvalue,lowerRange,higherRange,filename,jobname,custname,custadd,res,testedby,witnessedby,aprovedby):
     # mydict = { "name": "John", "address": "Highway 37" }
     # x = mycol.insert_one(mydict)
+    global camFrame
+    f=None
+    if camFrame is not None:
+        f=camFrame
     print("RESULT")
     print(caliberation,indentor,load,hbvalue,lowerRange,higherRange,filename,jobname,custname,custadd,res,testedby,witnessedby,aprovedby)
     resdict = {
@@ -49,7 +54,9 @@ def saveRecord(caliberation,indentor,load,hbvalue,lowerRange,higherRange,filenam
     "caliberation-value":caliberation,
     "load":load,
     "lowerRange":lowerRange,
-    "higherRange":higherRange
+    "higherRange":higherRange,
+    "date":datetime.now(),
+    "image":f
     }
     x = mycol.insert_one(resdict)
     print(x.inserted_id)
@@ -91,8 +98,8 @@ def getR():
 
 @eel.expose
 def getResults(calibration,output,diameter_of_indenter,applied_load,HB_value,lower,upper):
-    capFram = cv2.imread('0001.tif')
-    res = single('0001.tif',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper))
+    capFram = cv2.imread('1.png')
+    res = single('1.png',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper))
     print("RESULT",res)
     return res
 
@@ -106,19 +113,17 @@ def get_ip():
 def gen(camera):
     while True:
         frame = camera.get_frame()
-        k = cv2.waitKey(1)
-        if k%256 == 27:
-        # ESC pressed
-            print("Escape hit, closing...")
-            break
-        elif k%256 == 32:
-            # SPACE pressed
-            img_name = "opencv_frame_{}.png".format(img_counter)
-            cv2.imwrite('1.png', frame)
-            print("{} written!".format(img_name))
-            img_counter += 1
+        # if k%256 == 27:
+        # # ESC pressed
+        #     print("Escape hit, closing...")
+        #     break
+        # elif k%256 == 32:
+        #     # SPACE pressed
+        #     img_name = "opencv_frame_{}.png".format(img_counter)
+        #     cv2.imwrite('1.png', frame)
+        #     print("{} written!".format(img_name))
+        #     img_counter += 1
         yield frame
-
 
 
 
@@ -136,13 +141,13 @@ def video_feed():
         eel.updateImageSrc(blob)()
         # time.sleep(0.1)
 
+
 @eel.expose
 def toupcamvideo_feed(flg):
     if flg == 1:   
         x = VideoCamera()
         y = gen(x)
         print("hi")
-        k = cv2.waitKey(1)
         for each in y:
             # Convert bytes to base64 encoded str, as we can only pass json to frontend
             blob = base64.b64encode(each)
@@ -153,13 +158,64 @@ def toupcamvideo_feed(flg):
         print("FUNCTION CALL ")
         x = VideoCamera()
         y = x.capture_frame()
+        x.__del__()
         print(y)
         # img_name = "opencv_frame_{}.png".format(img_counter)
         cv2.imwrite('1.png', y)
         capFram = y
-        print("{} written!")
-        x.__del__()
         
+
+
+
+# @eel.expose
+# def toupcamvideo_feed(flg):
+#     global x
+#     global camFrame
+#     if flg == 1:   
+#         x = VideoCamera()
+#         y = gen(x)
+#         print("hi")
+#         # k = cv2.waitKey(1)
+#         for each in y:
+#             # Convert bytes to base64 encoded str, as we can only pass json to frontend
+#             blob = base64.b64encode(each)
+#             blob = blob.decode("utf-8")
+
+#             eel.updateImageSrc(blob)()
+#     if flg == 0:
+#         print(x)
+#         if x is not None:
+#             #y = x.capture_frame()
+#             y = gen(x)
+#             y = x.capture_frame()
+#             print(y)
+#             x.__del__()
+#             cv2.imwrite('2.png', y)
+#             # img_name = "opencv_frame_{}.png".format(img_counter)
+#             camFrame=y
+#             for each in y:
+#             # Convert bytes to base64 encoded str, as we can only pass json to frontend
+#                 blob = base64.b64encode(each)
+#                 blob = blob.decode("utf-8")
+#                 camFrame=blob
+#                 print("**",len(blob))
+#                 eel.updateImageSrc(blob)()
+            
+#             x=None
+    # if flg == 0:
+    #     if x is not None:
+    #         y = x.capture_frame()
+    #     print("FUNCTION CALL ")
+    #     x = VideoCamera()
+    #     y = x.capture_frame()
+    #     print(y)
+    #     # img_name = "opencv_frame_{}.png".format(img_counter)
+    #     cv2.imwrite('1.png', y)
+    #     capFram = y
+    #     print("{} written!")
+    #     x.__del__()
+    
+    
 
 
 

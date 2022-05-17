@@ -35,23 +35,47 @@
     var testedby = document.getElementById('tested-by').value
     var witnessedby = document.getElementById('witnessed-by').value
     var aprovedby = document.getElementById('aproved-by').value
-    
-    var doc = new jsPDF('p', 'pt', 'letter');
-    doc.setFontSize(20);
-    doc.setFont("times");
-    doc.text(40, 20, 'Job Name : ' + jobname);
-    doc.text(40, 80, 'Tested By ' +testedby);
-    doc.text(40, 100, 'Aprooved By : ' + aprovedby);
-    doc.text(40, 120, 'Witnessed By : ' + witnessedby);
-    doc.text(40, 140, 'Customer Name : ' + custname);
-    doc.text(40, 160, 'Customer Address : ' + custadd);
-    doc.text(40, 180, 'HB Value : ' + hbvalue);
-    doc.text(40, 200, 'Diamete of Indentor : ' + indentor);
-    doc.text(40, 220, 'Calculated HB Value : ' + res);
+    var logoimgsrc = './images/qsonlogo.png';
+    // var doc = new jsPDF('p', 'pt', 'letter');
+    // doc.setFontSize(20);
+    // doc.setFont("times");
+    // doc.text(40, 20, 'Job Name : ' + jobname);
+    // doc.text(40, 80, 'Tested By ' +testedby);
+    // doc.text(40, 100, 'Aprooved By : ' + aprovedby);
+    // doc.text(40, 120, 'Witnessed By : ' + witnessedby);
+    // doc.text(40, 140, 'Customer Name : ' + custname);
+    // doc.text(40, 160, 'Customer Address : ' + custadd);
+    // doc.text(40, 180, 'HB Value : ' + hbvalue);
+    // doc.text(40, 200, 'Diamete of Indentor : ' + indentor);
+    // doc.text(40, 220, 'Calculated HB Value : ' + res);
    
 
-    doc.save('Test.pdf');
-
+    // doc.save('Test.pdf');
+    var logoimgsrc = document.createElement("img");
+    logoimgsrc.src = "./images/qsonlogo.png";
+    var pdf = '<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta http-equiv="X-UA-Compatible" content="IE=edge">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Document</title>    <style>      body:before,      body:after {               left: 0;        right: 0;      }      body:before {        top: 0;      }      body:after {        bottom: 0;      }      body {        border: 5px solid black;        border: 5px solid black;      }      .table2 table {        font-family: arial, sans-serif;        border-collapse: collapse;        width: 100%;        margin-left: 4rem;      }      .table2 td {        text-align: center;        padding: 8px;      }      .table2 th {        text-align: center;        padding: 8px;      }      .table2{        padding: 15px;      }      .table1 table {        font-family: arial, sans-serif;        border-collapse: collapse;        width: 50%;        margin-left: 4rem;      }      .table1{        padding: 15px;      }      .table1 td {        border: 1px solid #dddddd;        text-align: center;        padding: 8px;      }      .table1 th {        border: 1px solid #dddddd;        text-align: center;        padding: 8px;      }      .table1 tr:nth-child(even) {        background-color: #dddddd;      }      .content      {          padding: 15px;      }    </style></head><body>   <div class="content">    <div style="text-align:center;">        <h1 style="text-decoration: underline;">TEST REPORT</h1>    </div>    <hr>    <div>      <table>        <tr>          <th> '
+    pdf += '<img src="./images/qsonlogo.png" alt="company-logo" width="175x" height="100px">'
+    pdf+='</th>          <th><p style="font-size: 3.5rem;">Quson-tech</p></th>        </tr>        </table>          </div>    <hr>    <div>        <h3>Date:'
+    pdf+='18-05-2022'
+    pdf+='</h3><h3>Customer Name:'
+    pdf+=custname
+    pdf+='</h3><h3>Customer Address:'
+    pdf+=custadd
+    pdf+='</h3>    </div>    <hr />    <hr />    <div>      <h4>Input Parameters :       <span>            Caliberation : '
+    pdf+=caliberation
+    pdf+='</span><span>Range :'
+    pdf+=lowerRange +'to' + higherRange
+    pdf+='</span>    </h4>    </div>    <h3>Results:</h3>    <div class="table1">      <table>        <tr>          <th>Brinell Force(Kg)</th>          <th>' 
+    pdf+=load
+    pdf+='</th>                  </tr>        <tr>          <th>Brinell Diameter(mm)</th>          <th>'
+    pdf+=indentor
+    pdf+='</th>                 </tr>            </table>    </div>    <hr />    <hr />    <div class="table1">      <table>        <tr>          <th>Sr. No.</th>          <th>Mean Diameter(mm)</th>          <th>BHN</th>          <th>Status</th>                  </tr>        <tr>          <th>'
+    pdf+='1' + '</th><th>' + indentor + '</th><th>' + res + '</th><th>' + 'Accepted'
+    pdf+='         </tr>            </table>    </div>    <hr />        <hr />        <div class="table2">      <table>        <tr>          <th>Tested By:</th>          <th>Witnessed By:</th>          <th>Approved By:</th>        </tr>        <tr>          <th>Sushant Sanjay patil</th>          <th>Sushant Sanjay Patil</th>          <th>Sushant Sanjay Patil</th>        </tr>      </table>    </div>  </div></body></html>'
+      var win = window.open('', '', 'height=900,width=900');
+    win.document.write(pdf);
+    win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+    win.print();    
     
 }
     </script>
@@ -69,7 +93,7 @@
   <header>
     <div>
       <div menu-item="0" title="Test Panel" class="menu-item logo-wrapper">
-        <img class="logo" src="./images/qsonlogo.png" alt="Test Panel" />
+        <img class="logo" src="./images/qsonlogo.png" alt="Test Panel" id = "qsonlogo"/>
       </div>
       <div class="top-bar-menu">
         <span>

@@ -187,11 +187,12 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
                                 cv2.putText(originalImg, str(cnt),(int(tltrX + 120), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (0, 0, 255),2)
                                 cv2.putText(originalImg, str(HB),(int(tltrX + 180), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (255, 0, 0),2)
     
+            cv2.imwrite('Res.jpg',originalImg)
             return HB
             #Storing Result Image
             name = './Result/Single/'+output 
             cnt += 1
-            cv2.imwrite(str(name),originalImg)
+            
             #cv2.imshow("Show",originalImg)
             cv2.waitKey(0)
             j += 1

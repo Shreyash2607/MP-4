@@ -146,7 +146,7 @@ function Headers(list, selector) {
 }      
 
 function py_video(flg) {
-    alert("a")
+    //alert("a")
     //eel.video_feed()()
     eel.toupcamvideo_feed(flg)()
 }
