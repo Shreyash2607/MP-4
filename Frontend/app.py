@@ -16,6 +16,8 @@ from camera import VideoCamera
 from result import single
 # from toupcamcamera import ToupcamVideoCamera
 import pymongo
+from PIL import Image
+import io
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["Qson2"]
@@ -163,6 +165,17 @@ def toupcamvideo_feed(flg):
         # img_name = "opencv_frame_{}.png".format(img_counter)
         cv2.imwrite('1.png', y)
         capFram = y
+        im = Image.open("./1.png")
+
+        image_bytes = io.BytesIO()
+        im.save(image_bytes, format='JPEG')
+
+        image = {
+            'data': image_bytes.getvalue()
+        }
+        
+        image_id = mycol.insert_one(image).inserted_id
+        print("Image saved")
         
 
 
