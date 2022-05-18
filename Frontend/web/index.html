@@ -1,237 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QSON Tech</title>
-  <link rel="stylesheet" href="main.css" />
-  <script defer src="main.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap" rel="stylesheet" />
-  <script type="text/javascript" src="/eel.js"></script>
-  <script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
-    </script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QSON Tech</title>
+    <link rel="stylesheet" href="main.css" />
+    <script defer src="main.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap"
+      rel="stylesheet"
+    />
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
     <script>
       function demoFromHTML() {
-    var indentor = document.getElementById('select-indenter').value
-    var load =  document.getElementById('select-load').value
-    var caliberation = document.getElementById('caliberation').value
-    var hbvalue = document.getElementById('select-hb').value
-    var lowerRange = document.getElementById('range-from').value
-    var higherRange = document.getElementById('range-to').value
-    var filename = document.getElementById('file-name').value
-    var jobname = document.getElementById('job-description').value
-    var custname = document.getElementById('cust-name').value
-    var custadd = document.getElementById('cust-address').value
-    var res = document.getElementById('result').value
-    var testedby = document.getElementById('tested-by').value
-    var witnessedby = document.getElementById('witnessed-by').value
-    var aprovedby = document.getElementById('aproved-by').value
-    var logoimgsrc = './images/qsonlogo.png';
-    // var doc = new jsPDF('p', 'pt', 'letter');
-    // doc.setFontSize(20);
-    // doc.setFont("times");
-    // doc.text(40, 20, 'Job Name : ' + jobname);
-    // doc.text(40, 80, 'Tested By ' +testedby);
-    // doc.text(40, 100, 'Aprooved By : ' + aprovedby);
-    // doc.text(40, 120, 'Witnessed By : ' + witnessedby);
-    // doc.text(40, 140, 'Customer Name : ' + custname);
-    // doc.text(40, 160, 'Customer Address : ' + custadd);
-    // doc.text(40, 180, 'HB Value : ' + hbvalue);
-    // doc.text(40, 200, 'Diamete of Indentor : ' + indentor);
-    // doc.text(40, 220, 'Calculated HB Value : ' + res);
-   
+        var indentor = document.getElementById("select-indenter").value;
+        var load = document.getElementById("select-load").value;
+        var caliberation = document.getElementById("caliberation").value;
+        var hbvalue = document.getElementById("select-hb").value;
+        var lowerRange = document.getElementById("range-from").value;
+        var higherRange = document.getElementById("range-to").value;
+        var filename = document.getElementById("file-name").value;
+        var jobname = document.getElementById("job-description").value;
+        var custname = document.getElementById("cust-name").value;
+        var custadd = document.getElementById("cust-address").value;
+        var res = document.getElementById("result").value;
+        var testedby = document.getElementById("tested-by").value;
+        var witnessedby = document.getElementById("witnessed-by").value;
+        var aprovedby = document.getElementById("aproved-by").value;
+        var logoimgsrc = "./images/qsonlogo.png";
+        // var doc = new jsPDF('p', 'pt', 'letter');
+        // doc.setFontSize(20);
+        // doc.setFont("times");
+        // doc.text(40, 20, 'Job Name : ' + jobname);
+        // doc.text(40, 80, 'Tested By ' +testedby);
+        // doc.text(40, 100, 'Aprooved By : ' + aprovedby);
+        // doc.text(40, 120, 'Witnessed By : ' + witnessedby);
+        // doc.text(40, 140, 'Customer Name : ' + custname);
+        // doc.text(40, 160, 'Customer Address : ' + custadd);
+        // doc.text(40, 180, 'HB Value : ' + hbvalue);
+        // doc.text(40, 200, 'Diamete of Indentor : ' + indentor);
+        // doc.text(40, 220, 'Calculated HB Value : ' + res);
 
-    // doc.save('Test.pdf');
-    var logoimgsrc = document.createElement("img");
-    logoimgsrc.src = "./images/qsonlogo.png";
-    var pdf = '<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta http-equiv="X-UA-Compatible" content="IE=edge">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Document</title>    <style>      body:before,      body:after {               left: 0;        right: 0;      }      body:before {        top: 0;      }      body:after {        bottom: 0;      }      body {        border: 5px solid black;        border: 5px solid black;      }      .table2 table {        font-family: arial, sans-serif;        border-collapse: collapse;        width: 100%;        margin-left: 4rem;      }      .table2 td {        text-align: center;        padding: 8px;      }      .table2 th {        text-align: center;        padding: 8px;      }      .table2{        padding: 15px;      }      .table1 table {        font-family: arial, sans-serif;        border-collapse: collapse;        width: 50%;        margin-left: 4rem;      }      .table1{        padding: 15px;      }      .table1 td {        border: 1px solid #dddddd;        text-align: center;        padding: 8px;      }      .table1 th {        border: 1px solid #dddddd;        text-align: center;        padding: 8px;      }      .table1 tr:nth-child(even) {        background-color: #dddddd;      }      .content      {          padding: 15px;      }    </style></head><body>   <div class="content">    <div style="text-align:center;">        <h1 style="text-decoration: underline;">TEST REPORT</h1>    </div>    <hr>    <div>      <table>        <tr>          <th> '
-    pdf += '<img src="./images/qsonlogo.png" alt="company-logo" width="175x" height="100px">'
-    pdf+='</th>          <th><p style="font-size: 3.5rem;">Quson-tech</p></th>        </tr>        </table>          </div>    <hr>    <div>        <h3>Date:'
-    pdf+='18-05-2022'
-    pdf+='</h3><h3>Customer Name:'
-    pdf+=custname
-    pdf+='</h3><h3>Customer Address:'
-    pdf+=custadd
-    pdf+='</h3>    </div>    <hr />    <hr />    <div>      <h4>Input Parameters :       <span>            Caliberation : '
-    pdf+=caliberation
-    pdf+='</span><span>Range :'
-    pdf+=lowerRange +'to' + higherRange
-    pdf+='</span>    </h4>    </div>    <h3>Results:</h3>    <div class="table1">      <table>        <tr>          <th>Brinell Force(Kg)</th>          <th>' 
-    pdf+=load
-    pdf+='</th>                  </tr>        <tr>          <th>Brinell Diameter(mm)</th>          <th>'
-    pdf+=indentor
-    pdf+='</th>                 </tr>            </table>    </div>    <hr />    <hr />    <div class="table1">      <table>        <tr>          <th>Sr. No.</th>          <th>Mean Diameter(mm)</th>          <th>BHN</th>          <th>Status</th>                  </tr>        <tr>          <th>'
-    pdf+='1' + '</th><th>' + indentor + '</th><th>' + res + '</th><th>' + 'Accepted'
-    pdf+='         </tr>            </table>    </div>    <hr />        <hr />        <div class="table2">      <table>        <tr>          <th>Tested By:</th>          <th>Witnessed By:</th>          <th>Approved By:</th>        </tr>        <tr>          <th>Sushant Sanjay patil</th>          <th>Sushant Sanjay Patil</th>          <th>Sushant Sanjay Patil</th>        </tr>      </table>    </div>  </div></body></html>'
-      var win = window.open('', '', 'height=900,width=900');
-    win.document.write(pdf);
-    win.document.close(); 	// CLOSE THE CURRENT WINDOW.
-    win.print();    
-    
-}
+        // doc.save('Test.pdf');
+        var logoimgsrc = document.createElement("img");
+        logoimgsrc.src = "./images/qsonlogo.png";
+        var pdf =
+          '<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta http-equiv="X-UA-Compatible" content="IE=edge">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Document</title>    <style>      body:before,      body:after {               left: 0;        right: 0;      }      body:before {        top: 0;      }      body:after {        bottom: 0;      }      body {        border: 5px solid black;        border: 5px solid black;      }      .table2 table {        font-family: arial, sans-serif;        border-collapse: collapse;        width: 100%;        margin-left: 4rem;      }      .table2 td {        text-align: center;        padding: 8px;      }      .table2 th {        text-align: center;        padding: 8px;      }      .table2{        padding: 15px;      }      .table1 table {        font-family: arial, sans-serif;        border-collapse: collapse;        width: 50%;        margin-left: 4rem;      }      .table1{        padding: 15px;      }      .table1 td {        border: 1px solid #dddddd;        text-align: center;        padding: 8px;      }      .table1 th {        border: 1px solid #dddddd;        text-align: center;        padding: 8px;      }      .table1 tr:nth-child(even) {        background-color: #dddddd;      }      .content      {          padding: 15px;      }    </style></head><body>   <div class="content">    <div style="text-align:center;">        <h1 style="text-decoration: underline;">TEST REPORT</h1>    </div>    <hr>    <div>      <table>        <tr>          <th> ';
+        pdf +=
+          '<img src="./images/qsonlogo.png" alt="company-logo" width="175x" height="100px">';
+        pdf +=
+          '</th>          <th><p style="font-size: 3.5rem;">Quson-tech</p></th>        </tr>        </table>          </div>    <hr>    <div>        <h3>Date:';
+        pdf += "18-05-2022";
+        pdf += "</h3><h3>Customer Name:";
+        pdf += custname;
+        pdf += "</h3><h3>Customer Address:";
+        pdf += custadd;
+        pdf +=
+          "</h3>    </div>    <hr />    <hr />    <div>      <h4>Input Parameters :       <span>            Caliberation : ";
+        pdf += caliberation;
+        pdf += "</span><span>Range :";
+        pdf += lowerRange + "to" + higherRange;
+        pdf +=
+          '</span>    </h4>    </div>    <h3>Results:</h3>    <div class="table1">      <table>        <tr>          <th>Brinell Force(Kg)</th>          <th>';
+        pdf += load;
+        pdf +=
+          "</th>                  </tr>        <tr>          <th>Brinell Diameter(mm)</th>          <th>";
+        pdf += indentor;
+        pdf +=
+          '</th>                 </tr>            </table>    </div>    <hr />    <hr />    <div class="table1">      <table>        <tr>          <th>Sr. No.</th>          <th>Mean Diameter(mm)</th>          <th>BHN</th>          <th>Status</th>                  </tr>        <tr>          <th>';
+        pdf +=
+          "1" +
+          "</th><th>" +
+          indentor +
+          "</th><th>" +
+          res +
+          "</th><th>" +
+          "Accepted";
+        pdf +=
+          '         </tr>            </table>    </div>    <hr />        <hr />        <div class="table2">      <table>        <tr>          <th>Tested By:</th>          <th>Witnessed By:</th>          <th>Approved By:</th>        </tr>        <tr>          <th>Sushant Sanjay patil</th>          <th>Sushant Sanjay Patil</th>          <th>Sushant Sanjay Patil</th>        </tr>      </table>    </div>  </div></body></html>';
+        var win = window.open("", "", "height=900,width=900");
+        win.document.write(pdf);
+        win.document.close(); // CLOSE THE CURRENT WINDOW.
+        win.print();
+      }
     </script>
-</head>
-<style>
-  table,
-  th,
-  td {
-    border: 1px solid white;
-    border-collapse: collapse;
-  }
-</style>
+  </head>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid white;
+      border-collapse: collapse;
+    }
+  </style>
 
-<body>
-  <header>
-    <div>
-      <div menu-item="0" title="Test Panel" class="menu-item logo-wrapper">
-        <img class="logo" src="./images/qsonlogo.png" alt="Test Panel" id = "qsonlogo"/>
+  <body>
+    <header>
+      <div>
+        <div menu-item="0" title="Test Panel" class="menu-item logo-wrapper">
+          <img
+            class="logo"
+            src="./images/qsonlogo.png"
+            alt="Test Panel"
+            id="qsonlogo"
+          />
+        </div>
+        <div class="top-bar-menu">
+          <span>
+            <button id="button-video">
+              <i class="fa-solid fa-video"></i> Video
+            </button>
+          </span>
+          <span> <i class="fa-solid fa-user"></i> Profile </span>
+          <button onclick="py_video(1)">Start feed</button>
+          <button onclick="py_video(0)">Stop feed</button>
+        </div>
       </div>
-      <div class="top-bar-menu">
-        <span>
-          <button id="button-video">
-            <i class="fa-solid fa-video"></i> Video
-          </button>
-        </span>
-        <span> <i class="fa-solid fa-user"></i> Profile </span>
-        <button onclick="py_video(1)">Start feed</button>
-        <button onclick="py_video(0)">Stop feed</button>
-      </div>
-    </div>
-    <div id="current-menu"></div>
-  </header>
-  <div class="body-container">
-    <div class="panel-left">
-      <div class="menu-target menu0 menu1 menu2 hide">
-        <div class="menu1-menu2-panel">
-          <div class="cam"><img id="bg" src="" alt="" />
-          </div>
-          <div class="menu-target menu0 menu1 hide" id="content">
-            <form id="" action="">
-              <div class="form-group">
-                <label for="select-indenter">Indenter</label>
-                <select name="select-indenter" id="select-indenter">
-                  <option value="2.5">2.5mm</option>
-                  <option value="5.00">5.00mm</option>
-                  <option value="10.00">10.00mm</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="select-load">Load</label>
-                <select name="select-load" id="select-load">
-                  <option value="62.5">62.5Kg</option>
-                  <option value="187.5">187.5Kg</option>
-                  <option value="750">750Kg</option>
-                  <option value="3000">3000Kg</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="select-hb">HB Value</label>
-                <select name="select-hb" id="select-hb">
-                  <option value="200.4">200.4BHN</option>
-                  <option value="220.0">220.0BHN</option>
-                  <option value="282.0">282.0BHN</option>
-                  <option value="288.4">288.4BHN</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="Range">Caliberation Value</label>
-                <input type="number" step="any" name="caliberation" id="caliberation" />
-              </div>
-              <div class="form-row">
-                <label for="Range">Range</label>
+      <div id="current-menu"></div>
+    </header>
+    <div class="body-container">
+      <div class="panel-left">
+        <div class="menu-target menu0 menu1 menu2 hide">
+          <div class="menu1-menu2-panel">
+            <div class="cam">
+              <img id="bg" src="" alt="" style="width: 100%" />
+            </div>
+            <div class="menu-target menu0 menu1 hide" id="content">
+              <form id="" action="">
                 <div class="form-group">
-                  <input type="number" step="any" name="range-from" id="range-from" />
-                  <div class="text-align-center">To</div>
-                  <input type="number" step="any" name="range-to" id="range-to" />
+                  <label for="select-indenter">Indenter</label>
+                  <select name="select-indenter" id="select-indenter">
+                    <option value="2.5">2.5mm</option>
+                    <option value="5.00">5.00mm</option>
+                    <option value="10.00">10.00mm</option>
+                  </select>
                 </div>
-              </div>
-              <div class="form-group">
-                <button class="bg-red" onclick="getResults(event)">Auto Result</button>
-              </div>
-
-              <div class="form-group">
+                <div class="form-group">
+                  <label for="select-load">Load</label>
+                  <select name="select-load" id="select-load">
+                    <option value="62.5">62.5Kg</option>
+                    <option value="187.5">187.5Kg</option>
+                    <option value="750">750Kg</option>
+                    <option value="3000">3000Kg</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="select-hb">HB Value</label>
+                  <select name="select-hb" id="select-hb">
+                    <option value="200.4">200.4BHN</option>
+                    <option value="220.0">220.0BHN</option>
+                    <option value="282.0">282.0BHN</option>
+                    <option value="288.4">288.4BHN</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="Range">Caliberation Value</label>
+                  <input
+                    type="number"
+                    step="any"
+                    name="caliberation"
+                    id="caliberation"
+                  />
+                </div>
                 <div class="form-row">
-                  <label for="">Result</label>
-                  <span class="menu-target hide menu1 menu-target hide menu1-icons">
-                    <i class="fa-solid color-red fa-circle-plus"></i>
-                    <!-- <a href="javascript:demoFromHTML()" class="button">Run Code</a> -->
-                    <i class="fa-solid fa-print" onclick="demoFromHTML()"></i>
-                    <i class="fa-solid fa-file-arrow-down"></i>
-                    <i class="fa-solid fa-trash"></i>
-                  </span>
+                  <label for="Range">Range</label>
+                  <div class="form-group">
+                    <input
+                      type="number"
+                      step="any"
+                      name="range-from"
+                      id="range-from"
+                    />
+                    <div class="text-align-center">To</div>
+                    <input
+                      type="number"
+                      step="any"
+                      name="range-to"
+                      id="range-to"
+                    />
+                  </div>
                 </div>
-                <div class="">
-                  <input type="text" name="result" id="result" />
+                <div class="form-group">
+                  <button class="bg-red" onclick="getResults(event)">
+                    Auto Result
+                  </button>
                 </div>
-                <span class="menu-target hide menu1 menu-target hide menu1-checkboxes">
-                  <span>
-                    <label for="ch1">
-                      <input type="checkbox" name="ch1" id="ch1" />
-                      Pr. Graph
-                    </label>
-                    <label for="ch2">
-                      <input type="checkbox" name="ch2" id="ch2" />
-                      Pr. Status
-                    </label>
-                    <label for="ch3">
-                      <input type="checkbox" name="ch3" id="ch3" />
-                      Pr. Images
-                    </label>
-                  </span>
-                </span>
-              </div>
-            </form>
-          </div>
-          <div class="menu-target menu2 menu2-left-form">
-            <div class="form-group">
-              <label for="select-observed-value">Observerd Value</label>
-              <select name="select-observed-value" id="select-observed-value">
-                <option value="">10.00mm</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="select-required-value">Required Value</label>
-              <select name="select-required-value" id="select-required-value">
-                <option value="">10.00mm</option>
-              </select>
-            </div>
 
-            <div class="form-group">
-              <button>Back</button>
-              <button class="bg-red">Save & Back</button>
+                <div class="form-group">
+                  <div class="form-row">
+                    <label for="">Result</label>
+                    <span
+                      class="menu-target hide menu1 menu-target hide menu1-icons"
+                    >
+                      <i class="fa-solid color-red fa-circle-plus"></i>
+                      <!-- <a href="javascript:demoFromHTML()" class="button">Run Code</a> -->
+                      <i class="fa-solid fa-print" onclick="demoFromHTML()"></i>
+                      <i class="fa-solid fa-file-arrow-down"></i>
+                      <i class="fa-solid fa-trash"></i>
+                    </span>
+                  </div>
+                  <div class="">
+                    <input type="text" name="result" id="result" />
+                  </div>
+                  <span
+                    class="menu-target hide menu1 menu-target hide menu1-checkboxes"
+                  >
+                    <span>
+                      <label for="ch1">
+                        <input type="checkbox" name="ch1" id="ch1" />
+                        Pr. Graph
+                      </label>
+                      <label for="ch2">
+                        <input type="checkbox" name="ch2" id="ch2" />
+                        Pr. Status
+                      </label>
+                      <label for="ch3">
+                        <input type="checkbox" name="ch3" id="ch3" />
+                        Pr. Images
+                      </label>
+                    </span>
+                  </span>
+                </div>
+              </form>
+            </div>
+            <div class="menu-target menu2 menu2-left-form">
+              <div class="form-group">
+                <label for="select-observed-value">Observerd Value</label>
+                <select name="select-observed-value" id="select-observed-value">
+                  <option value="">10.00mm</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="select-required-value">Required Value</label>
+                <select name="select-required-value" id="select-required-value">
+                  <option value="">10.00mm</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <button>Back</button>
+                <button class="bg-red">Save & Back</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="menu-target menu3">
-        <div class="menu3-panel">
-          <div class="left">
-            Doc/File
-            <br /><br />
-            <div>
-              <select name="select-file-type" id="select-file-type">
-                <option value="">Batch Result</option>
-                <option value="">Single Result</option>
-              </select>
-              <input type="text" placeholder="Search" name="" id="" />
-            </div>
-            <button class="bg-red" onclick="constructTable('#table')">GET</button>
-            <div class="list-of-files">
-           
-              <table align="center" id="table"  cellpadding="3"  cellspacing="2" rules="all" border="1">
-               
-              </table>
-        
-              <!-- <ul>
+        <div class="menu-target menu3">
+          <div class="menu3-panel">
+            <div class="left">
+              Doc/File
+              <br /><br />
+              <div>
+                <select name="select-file-type" id="select-file-type">
+                  <option value="">Batch Result</option>
+                  <option value="">Single Result</option>
+                </select>
+                <input type="text" placeholder="Search" name="" id="" />
+              </div>
+              <button class="bg-red" onclick="constructTable('#table')">
+                GET
+              </button>
+              <div class="list-of-files">
+                <table
+                  align="center"
+                  id="table"
+                  cellpadding="3"
+                  cellspacing="2"
+                  rules="all"
+                  border="1"
+                  style="width: 100%"
+                ></table>
+
+                <!-- <ul>
                   <li>Lorem ipsum dolor sit.</li>
                   <li>Lorem ipsum dolor sit.</li>
                   <li>Lorem ipsum dolor sit.</li>
@@ -251,38 +302,58 @@
                   <li>Lorem ipsum dolor sit.</li>
                   <li>Lorem ipsum dolor sit.</li>
                 </ul> -->
+              </div>
             </div>
-          </div>
-          <div class="right">
-            <div class="form-group">
-              <button class="bg-red" onclick="printData()">Export Pdf</button>
-              <button class="">Back</button>
+            <div class="right">
+              <div class="form-group">
+                <button class="bg-red" onclick="printData()">Export Pdf</button>
+                <button class="">Back</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="panel-right">
-      <div class="menu-target menu1 menu1-form">
-        <form action="">
-          <div class="form-group">
-            <label for="file-name">File Name</label>
-            <input type="text" placeholder="File Name" name="file-name" id="file-name" />
-          </div>
-          <div class="form-group">
-            <label for="job-description">Job Description</label>
-            <input type="text" placeholder="Job Description" name="job-description" id="job-description" />
-          </div>
-          <div class="form-group">
-            <label for="cust-name">Customer Name</label>
-            <input type="text" placeholder="Customer Name" name="cust-name" id="cust-name" />
-          </div>
-          <div class="form-group">
-            <label for="cust-address">Customer Address</label>
-            <input type="text" placeholder="Customer Address" name="cust-address" id="cust-address" />
-          </div>
-          <div class="form-group">
-            <!-- <div class="form-row">
+      <div class="panel-right">
+        <div class="menu-target menu1 menu1-form">
+          <form action="">
+            <div class="form-group">
+              <label for="file-name">File Name</label>
+              <input
+                type="text"
+                placeholder="File Name"
+                name="file-name"
+                id="file-name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="job-description">Job Description</label>
+              <input
+                type="text"
+                placeholder="Job Description"
+                name="job-description"
+                id="job-description"
+              />
+            </div>
+            <div class="form-group">
+              <label for="cust-name">Customer Name</label>
+              <input
+                type="text"
+                placeholder="Customer Name"
+                name="cust-name"
+                id="cust-name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="cust-address">Customer Address</label>
+              <input
+                type="text"
+                placeholder="Customer Address"
+                name="cust-address"
+                id="cust-address"
+              />
+            </div>
+            <div class="form-group">
+              <!-- <div class="form-row">
                             <input type="text">: <input type="text">
                         </div>
                         <div class="form-row">
@@ -291,52 +362,68 @@
                         <div class="form-row">
                             <input type="text">: <input type="text">
                         </div> -->
-          </div>
+            </div>
 
-          <div class="form-group">
-            <textarea name="" id="" cols="30" rows="10"></textarea>
-          </div>
+            <div class="form-group">
+              <textarea name="" id="" cols="30" rows="10"></textarea>
+            </div>
 
-          <div class="form-group">
-            <label for="tested-by">Tested By</label>
-            <input type="text" placeholder="Tested By" name="tested-by" id="tested-by" />
-          </div>
-          <div class="form-group">
-            <label for="witnessed-by">Witnessed By</label>
-            <input type="text" placeholder="witnessed By" name="witnessed-by" id="witnessed-by" />
-          </div>
-          <div class="form-group">
-            <label for="aproved-by">Aproved By</label>
-            <input type="text" placeholder="aproved By" name="aproved-by" id="aproved-by" />
-          </div>
+            <div class="form-group">
+              <label for="tested-by">Tested By</label>
+              <input
+                type="text"
+                placeholder="Tested By"
+                name="tested-by"
+                id="tested-by"
+              />
+            </div>
+            <div class="form-group">
+              <label for="witnessed-by">Witnessed By</label>
+              <input
+                type="text"
+                placeholder="witnessed By"
+                name="witnessed-by"
+                id="witnessed-by"
+              />
+            </div>
+            <div class="form-group">
+              <label for="aproved-by">Aproved By</label>
+              <input
+                type="text"
+                placeholder="aproved By"
+                name="aproved-by"
+                id="aproved-by"
+              />
+            </div>
 
-          <div class="form-group">
-            <button class="bg-red" onclick="saveSingleResult(event)">Save Pdf</button>
-            <button>Discard</button>
+            <div class="form-group">
+              <button class="bg-red" onclick="saveSingleResult(event)">
+                Save Pdf
+              </button>
+              <button>Discard</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div id="menu">
+        <div class="inner-wrapper">
+          <div class="menu-heading">Menu</div>
+          <div menu-item="1" title="Batch Test" class="menu-item selected">
+            <span>Create New Batch</span>
+            <img src="./images/Batch test.svg" alt="" />
           </div>
-        </form>
+          <div menu-item="2" title="Calibrate Settings" class="menu-item">
+            <span>Callibrate Settings</span>
+            <img src="./images/Calibrate test.svg" alt="" />
+          </div>
+          <div menu-item="3" title="Result / Data Store" class="menu-item">
+            <span>Results/ Data Store</span>
+            <img src="./images/Results and data store.svg" alt="" />
+          </div>
+          <div class="shutdown-button">Shutdown</div>
+        </div>
+        <div id="menu-button" class="menu-button">.<br />.<br />.<br /></div>
       </div>
     </div>
-    <div id="menu">
-      <div class="inner-wrapper">
-        <div class="menu-heading">Menu</div>
-        <div menu-item="1" title="Batch Test" class="menu-item selected">
-          <span>Create New Batch</span>
-          <img src="./images/Batch test.svg" alt="" />
-        </div>
-        <div menu-item="2" title="Calibrate Settings" class="menu-item">
-          <span>Callibrate Settings</span>
-          <img src="./images/Calibrate test.svg" alt="" />
-        </div>
-        <div menu-item="3" title="Result / Data Store" class="menu-item">
-          <span>Results/ Data Store</span>
-          <img src="./images/Results and data store.svg" alt="" />
-        </div>
-        <div class="shutdown-button">Shutdown</div>
-      </div>
-      <div id="menu-button" class="menu-button">.<br />.<br />.<br /></div>
-    </div>
-  </div>
-</body>
-
+  </body>
 </html>
