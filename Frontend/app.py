@@ -38,6 +38,12 @@ def saveRecord(caliberation,indentor,load,hbvalue,lowerRange,higherRange,filenam
     # x = mycol.insert_one(mydict)
     global camFrame
     f=None
+    image_bytes = io.BytesIO()
+    capFram.save(image_bytes, format='JPEG')
+
+    image = {
+    'image': image_bytes.getvalue()
+    }
     if camFrame is not None:
         f=camFrame
     print("RESULT")
@@ -58,7 +64,7 @@ def saveRecord(caliberation,indentor,load,hbvalue,lowerRange,higherRange,filenam
     "lowerRange":lowerRange,
     "higherRange":higherRange,
     "date":datetime.now(),
-    "image":f
+    'image': image_bytes.getvalue()
     }
     x = mycol.insert_one(resdict)
     print(x.inserted_id)
@@ -71,7 +77,12 @@ def getData():
     for x in mycol.find({}, { 'filename': 1 ,"tested-by":1,"given-hb":1,"calculated-hb":1}):
         savedData.append(x)
     
-    print(savedData)
+    # image = images.find_one()
+
+    # pil_img = Image.open(io.BytesIO(image['data']))
+    # plt.imshow(pil_img)
+    # plt.show()
+    # print(savedData)
     return savedData
 
 
@@ -100,8 +111,8 @@ def getR():
 
 @eel.expose
 def getResults(calibration,output,diameter_of_indenter,applied_load,HB_value,lower,upper):
-    capFram = cv2.imread('1.png')
-    res = single('1.png',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper))
+    capFram = cv2.imread('0001.tif')
+    res = single('0001.tif',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper))
     print("RESULT",res)
     return res
 
@@ -146,6 +157,7 @@ def video_feed():
 
 @eel.expose
 def toupcamvideo_feed(flg):
+    global capFram
     if flg == 1:   
         x = VideoCamera()
         y = gen(x)
@@ -167,14 +179,9 @@ def toupcamvideo_feed(flg):
         capFram = y
         im = Image.open("./1.png")
 
-        image_bytes = io.BytesIO()
-        im.save(image_bytes, format='JPEG')
-
-        image = {
-            'data': image_bytes.getvalue()
-        }
         
-        image_id = mycol.insert_one(image).inserted_id
+        
+        # image_id = mycol.insert_one(image).inserted_id
         print("Image saved")
         
 

@@ -163,7 +163,7 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
                             error = round(getPercentageError(HB_value,HB),4)
                     
                             #Printing Result in Form of Table
-                            if(error<3): 
+                            if(error<20): 
                                 #print(HB_value,'    ',HB,'        ',error, '        ',cv2.contourArea(c),'     ',cnt)
                                 #print(Diameter_pixels)
                                 #print(Diameter_mc)
@@ -187,7 +187,7 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
                                 cv2.putText(originalImg, str(cnt),(int(tltrX + 120), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (0, 0, 255),2)
                                 cv2.putText(originalImg, str(HB),(int(tltrX + 180), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (255, 0, 0),2)
     
-            cv2.imwrite('Res.jpg',originalImg)
+            cv2.imwrite('./images/Res.jpg',originalImg)
             return HB
             #Storing Result Image
             name = './Result/Single/'+output 
