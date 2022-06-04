@@ -1,10 +1,22 @@
+import imp
 import cv2
 from cv2 import minAreaRect
 import numpy as np
 import math
 import imutils
 from scipy.spatial import distance as dist
+from datetime import datetime
+import os
 #Function to get midpoint
+
+
+now = datetime.now() # current date and time
+year = now.strftime("%Y")
+month = now.strftime("%m")
+day = now.strftime("%d")
+time = now.strftime("%H:%M:%S")
+date_time = now.strftime("%d-%m-%Y %H-%M-%S")
+
 def midpoint(ptA, ptB):
 	return ((ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5)
 
@@ -93,7 +105,7 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
                 
                 #Calculating HB
                 HB = calculate_HB(applied_load,diameter_of_indenter,Diameter_mc)
-                if HB is -1:
+                if HB == -1:
                     continue
                 HB = round(HB,4)
 
@@ -155,7 +167,7 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
                             Diameter_mb = Diameter_mc
                             #Calculating HB
                             HB = calculate_HB(applied_load,diameter_of_indenter,Diameter_mc)
-                            if HB is -1:
+                            if HB == -1:
                                 continue
                             HB = round(HB,4)
                             print('HB : ',HB)
@@ -186,8 +198,15 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
                                 cv2.putText(originalImg, "{:.1f}mm".format(Diameter_mc),(int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,0.65, (255, 255, 255), 2)            
                                 cv2.putText(originalImg, str(cnt),(int(tltrX + 120), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (0, 0, 255),2)
                                 cv2.putText(originalImg, str(HB),(int(tltrX + 180), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (255, 0, 0),2)
-    
-            cv2.imwrite('./images/Res.jpg',originalImg)
+
+            path = 'Result/' + date_time + '.jpg'
+            current_directory = os.getcwd() + '/Result'
+            final_directory = os.path.join(current_directory, r'Batch No-1')
+            if not os.path.exists(final_directory):
+                os.makedirs(final_directory)
+
+            cv2.imwrite(path,originalImg)
+            cv2.imwrite('Res.jpg',originalImg)
             return HB
             #Storing Result Image
             name = './Result/Single/'+output 

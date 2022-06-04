@@ -10,7 +10,6 @@ import logging
 import os
 import sys
 from PyQt5.QtWidgets import QLabel, QApplication, QWidget, QDesktopWidget, QCheckBox, QMessageBox
-from ocv import MainWin
 import base64
 from camera import VideoCamera
 from result import single
@@ -22,6 +21,18 @@ import io
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["Qson2"]
 mycol = mydb["single"]
+
+
+#datetime 
+
+
+
+now = datetime.now() # current date and time
+year = now.strftime("%Y")
+month = now.strftime("%m")
+day = now.strftime("%d")
+time = now.strftime("%H:%M:%S")
+date_time = now.strftime("%d-%m-%Y %H-%M-%S")
 
 
 
@@ -112,7 +123,7 @@ def getR():
 @eel.expose
 def getResults(calibration,output,diameter_of_indenter,applied_load,HB_value,lower,upper):
     capFram = cv2.imread('0001.tif')
-    res = single('0001.tif',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper))
+    res = single('Input.jpg',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper))
     print("RESULT",res)
     return res
 
@@ -175,10 +186,13 @@ def toupcamvideo_feed(flg):
         x.__del__()
         print(y)
         # img_name = "opencv_frame_{}.png".format(img_counter)
-        cv2.imwrite('1.png', y)
-        capFram = y
-        im = Image.open("./1.png")
+        cv2.imwrite('Input.jpg', y)
+        myd = 'ADityafaa-aca'
+        path = 'InputImages/' + date_time + '.jpg'
+        print(path)
+        cv2.imwrite(path,y)
 
+        capFram = y
         
         
         # image_id = mycol.insert_one(image).inserted_id
