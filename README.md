@@ -1,9 +1,13 @@
 ## Calculation Of Diameter Using Image Processing
 
+### Prerequisites 
+1. Installation of TopCamDriver 
+
 ### How to Start Application 
-1. cd Frontend 
-2. python app.py 
-3. Python GUI will start
+1. ``` pip install -r requirements.txt ```
+2. ``` cd Frontend ```
+3. ``` python app.py ```
+4. Python GUI will start
 
 
 ### How to Run Backend
