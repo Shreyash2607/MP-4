@@ -97,6 +97,51 @@ async function saveSingleResult(event){
 
 }
 
+var list = []
+
+async function saveInfo(){
+    
+  alert('record added')
+  var indentor = document.getElementById('select-indenter').value
+  var load =  document.getElementById('select-load').value
+  var caliberation = document.getElementById('caliberation').value
+  var hbvalue = document.getElementById('select-hb').value
+  var lowerRange = document.getElementById('range-from').value
+  var higherRange = document.getElementById('range-to').value
+  var filename = document.getElementById('file-name').value
+  var jobname = document.getElementById('job-description').value
+  var custname = document.getElementById('cust-name').value
+  var custadd = document.getElementById('cust-address').value
+  var res = document.getElementById('result').value
+  var testedby = document.getElementById('tested-by').value
+  var witnessedby = document.getElementById('witnessed-by').value
+  var aprovedby = document.getElementById('aproved-by').value
+  var logoimgsrc = './images/qsonlogo.png';
+
+  var authDetails = {
+    "filename":filename, 
+    "jobname":jobname ,
+    "customer-name":custname,
+    "customer-address": custadd,
+    "tested-by":testedby,
+    "witnessed-by":witnessedby,
+    "aprooved-by":aprovedby,}
+  var doc = { "calculated-hb":res,
+            "given-hb":hbvalue,
+            "diameter-of-indentor":indentor,
+            "caliberation-value":caliberation,
+            "load":load,
+            "lowerRange":lowerRange,
+            "higherRange":higherRange,
+
+        };
+  list.push(doc);
+  console.log(doc);
+
+  await eel.saveBatchRecord(authDetails,list)()
+}
+
+
 async function constructTable(selector) {
 
     var list =  await eel.getData()()

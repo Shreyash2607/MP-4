@@ -44,6 +44,18 @@ x=None
 camFrame=None
 
 @eel.expose
+def saveBatchRecord(authDetails,list):
+    mongoData = {'authorDetail': authDetails,
+                    'listItems':list
+        }
+    print(mongoData)
+    x = mycol.insert_one(mongoData)
+
+
+
+
+
+@eel.expose
 def saveRecord(caliberation,indentor,load,hbvalue,lowerRange,higherRange,filename,jobname,custname,custadd,res,testedby,witnessedby,aprovedby):
     # mydict = { "name": "John", "address": "Highway 37" }
     # x = mycol.insert_one(mydict)
@@ -123,7 +135,7 @@ def getR():
 @eel.expose
 def getResults(calibration,output,diameter_of_indenter,applied_load,HB_value,lower,upper):
     capFram = cv2.imread('0001.tif')
-    res = single('Input.jpg',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper))
+    res = single('0001.tif',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper))
     print("RESULT",res)
     return res
 

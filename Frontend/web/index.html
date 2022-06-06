@@ -24,28 +24,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
     <script>
-      var list = []
-    function saveInfo(){
-      alert('record added')
-      var indentor = document.getElementById('select-indenter').value
-      var load =  document.getElementById('select-load').value
-      var caliberation = document.getElementById('caliberation').value
-      var hbvalue = document.getElementById('select-hb').value
-      var lowerRange = document.getElementById('range-from').value
-      var higherRange = document.getElementById('range-to').value
-      var filename = document.getElementById('file-name').value
-      var jobname = document.getElementById('job-description').value
-      var custname = document.getElementById('cust-name').value
-      var custadd = document.getElementById('cust-address').value
-      var res = document.getElementById('result').value
-      var testedby = document.getElementById('tested-by').value
-      var witnessedby = document.getElementById('witnessed-by').value
-      var aprovedby = document.getElementById('aproved-by').value
-      var logoimgsrc = './images/qsonlogo.png';
-      var doc = [indentor,load,caliberation,hbvalue,lowerRange,higherRange,filename,jobname,custname,custadd,res,testedby,witnessedby,aprovedby,logoimgsrc];
-      list.push(doc);
-      console.log(doc);
-    }
+    
 
 
       function demoFromHTML() {
@@ -97,7 +76,7 @@
                 }               
             console.log(pdf)
         }
-        pdf+=' </table>  <hr/> <div class="table2">      <table>        <tr>          <th>Tested By:</th>          <th>Witnessed By:</th>          <th>Approved By:</th>        </tr>        <tr>          <th>'+ list[0][11] + '</th>          <th>'+list[0][12]+ '</th>          <th>'+ list[0][13]+ '</th>        </tr>      </table>    </div>  </div></body></html>'
+        pdf+='</th></table>  <hr/> <div class="table2">      <table>        <tr>          <th>Tested By:</th>          <th>Witnessed By:</th>          <th>Approved By:</th>        </tr>        <tr>          <th>'+ list[0][11] + '</th>          <th>'+list[0][12]+ '</th>          <th>'+ list[0][13]+ '</th>        </tr>      </table>    </div>  </div></body></html>'
         //pdf +=
           //    '         </tr>            </table>    </div>    <hr />        <hr />        <div class="table2">      <table>        <tr>          <th>Tested By:</th>          <th>Witnessed By:</th>          <th>Approved By:</th>        </tr>        <tr>          <th>Sushant Sanjay patil</th>          <th>Sushant Sanjay Patil</th>          <th>Sushant Sanjay Patil</th>        </tr>      </table>    </div>  </div></body></html>';
         var win = window.open("", "", "height=900,width=900");
