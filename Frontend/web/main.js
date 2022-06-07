@@ -45,7 +45,9 @@ document.querySelector('[menu-item="0"]').click();
 
 document.getElementById("button-video").addEventListener("click", ()=>{eel.start_video()}, false);
 
-async function getResults(event) {
+
+
+async function getResults(event,flg) {
     console.log('Result')
     event.preventDefault()
     var indentor = document.getElementById('select-indenter').value
@@ -58,14 +60,23 @@ async function getResults(event) {
     console.log(hbvalue)
     var lowerRange = document.getElementById('range-from').value
     var higherRange = document.getElementById('range-to').value
+    var filename = document.getElementById('file-name').value
     var output = ' '    
 
     // // single(caliberation,output,diameter_of_indenter,applied_load,HB_value,method,lower,upper)
-
-    var res = await eel.getResults(caliberation,output,indentor,load,hbvalue,lowerRange,higherRange)()
+    var res = await eel.getResults(caliberation,filename,indentor,load,hbvalue,lowerRange,higherRange,flg)()
     // console.log(res)
     // var res = await eel.getR()()
     document.getElementById('result').value = res
+}
+
+async function getPDFDoc(){
+    var searchVal = document.getElementById('search').value
+    console.log(searchVal)
+    var pdf = await eel.getPDF(searchVal)()
+    var win = window.open("", "", "height=900,width=900");
+    win.document.write(pdf);
+
 }
 
 async function saveSingleResult(event){
@@ -95,50 +106,6 @@ async function saveSingleResult(event){
 
     await eel.saveRecord(caliberation,indentor,load,hbvalue,lowerRange,higherRange,filename,jobname,custname,custadd,res,testedby,witnessedby,aprovedby)()
 
-}
-
-var list = []
-
-async function saveInfo(){
-    
-  alert('record added')
-  var indentor = document.getElementById('select-indenter').value
-  var load =  document.getElementById('select-load').value
-  var caliberation = document.getElementById('caliberation').value
-  var hbvalue = document.getElementById('select-hb').value
-  var lowerRange = document.getElementById('range-from').value
-  var higherRange = document.getElementById('range-to').value
-  var filename = document.getElementById('file-name').value
-  var jobname = document.getElementById('job-description').value
-  var custname = document.getElementById('cust-name').value
-  var custadd = document.getElementById('cust-address').value
-  var res = document.getElementById('result').value
-  var testedby = document.getElementById('tested-by').value
-  var witnessedby = document.getElementById('witnessed-by').value
-  var aprovedby = document.getElementById('aproved-by').value
-  var logoimgsrc = './images/qsonlogo.png';
-
-  var authDetails = {
-    "filename":filename, 
-    "jobname":jobname ,
-    "customer-name":custname,
-    "customer-address": custadd,
-    "tested-by":testedby,
-    "witnessed-by":witnessedby,
-    "aprooved-by":aprovedby,}
-  var doc = { "calculated-hb":res,
-            "given-hb":hbvalue,
-            "diameter-of-indentor":indentor,
-            "caliberation-value":caliberation,
-            "load":load,
-            "lowerRange":lowerRange,
-            "higherRange":higherRange,
-
-        };
-  list.push(doc);
-  console.log(doc);
-
-  await eel.saveBatchRecord(authDetails,list)()
 }
 
 

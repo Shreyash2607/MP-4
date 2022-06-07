@@ -30,7 +30,7 @@ def calculate_HB(P,D,d):
     den = 3.14*D*(D-math.sqrt(D*D - d*d))
     return num/den
 
-def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,method,lower,upper):
+def single(input,calibration,filename,diameter_of_indenter,applied_load,HB_value,method,lower,upper,rno):
     image = cv2.imread(input)
     originalImg = image
     aoriginalImg = image
@@ -198,21 +198,16 @@ def single(input,calibration,output,diameter_of_indenter,applied_load,HB_value,m
                                 cv2.putText(originalImg, "{:.1f}mm".format(Diameter_mc),(int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,0.65, (255, 255, 255), 2)            
                                 cv2.putText(originalImg, str(cnt),(int(tltrX + 120), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (0, 0, 255),2)
                                 cv2.putText(originalImg, str(HB),(int(tltrX + 180), int(tlblY + 200)), cv2.FONT_HERSHEY_SIMPLEX,0.9, (255, 0, 0),2)
-
+                                
+            
             path = 'Result/' + date_time + '.jpg'
-            current_directory = os.getcwd() + '/Result'
-            final_directory = os.path.join(current_directory, r'Batch No-1')
+            current_directory = os.getcwd() + '/web/images'
+            final_directory = os.path.join(current_directory, filename)
             if not os.path.exists(final_directory):
                 os.makedirs(final_directory)
 
-            cv2.imwrite(path,originalImg)
-            cv2.imwrite('Res.jpg',originalImg)
+            cv2.imwrite('./web/images/'+filename+'/'+ str(rno) + '.jpg',originalImg)
+            print(rno)
+            cv2.imwrite('./web/images/'+ str(rno) + '.jpg',originalImg)
             return HB
-            #Storing Result Image
-            name = './Result/Single/'+output 
-            cnt += 1
-            
-            #cv2.imshow("Show",originalImg)
-            cv2.waitKey(0)
-            j += 1
-
+           

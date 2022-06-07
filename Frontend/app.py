@@ -20,7 +20,7 @@ import io
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["Qson2"]
-mycol = mydb["single"]
+mycol = mydb["batch"]
 
 
 #datetime 
@@ -44,12 +44,30 @@ x=None
 camFrame=None
 
 @eel.expose
-def saveBatchRecord(authDetails,list):
-    mongoData = {'authorDetail': authDetails,
-                    'listItems':list
+def getPDF(filename):
+    k = mycol.find_one({ 'batchName': filename })
+    print(k)
+    saveData = []
+    for m in k:
+        saveData.append(m)
+    pdfD = k['pdf']
+    return pdfD
+
+
+
+
+@eel.expose
+def saveBatchRecord(authDetails,list,flg,pdf,batchname):
+    mongoData = {
+        'batchName':batchname,
+        'authorDetail': authDetails,
+        'listItems':list,
+        'pdf':pdf
         }
     print(mongoData)
-    x = mycol.insert_one(mongoData)
+    if(flg == 1):
+        x = mycol.insert_one(mongoData)
+        print('DATA INSERTED ')
 
 
 
@@ -133,9 +151,9 @@ def getR():
     return 10
 
 @eel.expose
-def getResults(calibration,output,diameter_of_indenter,applied_load,HB_value,lower,upper):
+def getResults(calibration,output,diameter_of_indenter,applied_load,HB_value,lower,upper,rno):
     capFram = cv2.imread('0001.tif')
-    res = single('0001.tif',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper))
+    res = single('0001.tif',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper),rno)
     print("RESULT",res)
     return res
 
