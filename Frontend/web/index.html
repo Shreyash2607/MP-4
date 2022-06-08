@@ -39,7 +39,7 @@
           var indentor = document.getElementById('select-indenter').value
           var load =  document.getElementById('select-load').value
           var caliberation = document.getElementById('caliberation').value
-          var hbvalue = document.getElementById('select-hb').value
+          // var hbvalue = document.getElementById('select-hb').value
           var lowerRange = document.getElementById('range-from').value
           var higherRange = document.getElementById('range-to').value
           var filename = document.getElementById('file-name').value
@@ -64,7 +64,7 @@
           console.log(authDetails)
           var doc = { 
               "calculated-hb":res,
-                    "given-hb":hbvalue,
+                    // "given-hb":hbvalue,
                     "diameter-of-indentor":indentor,
                     "caliberation-value":caliberation,
                     "load":load,
@@ -171,13 +171,13 @@
         </div>
         <div class="top-bar-menu">
           <span>
-            <button id="button-video">
+            <button id="button-video" onclick="py_video(1)">
               <i class="fa-solid fa-video"></i> Video
             </button>
           </span>
           <span> <i class="fa-solid fa-user"></i> Profile </span>
-          <button onclick="py_video(1)">Start feed</button>
-          <button onclick="py_video(0)">Stop feed</button>
+          <!-- <button onclick="py_video(1)">Start feed</button> -->
+          <button onclick="py_video(0)">Capture feed</button>
         </div>
       </div>
       <div id="current-menu"></div>
@@ -208,7 +208,7 @@
                     <option value="3000">3000Kg</option>
                   </select>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="select-hb">HB Value</label>
                   <select name="select-hb" id="select-hb">
                     <option value="200.4">200.4BHN</option>
@@ -216,7 +216,7 @@
                     <option value="282.0">282.0BHN</option>
                     <option value="288.4">288.4BHN</option>
                   </select>
-                </div>
+                </div> -->
                 <div class="form-group">
                   <label for="Range">Caliberation Value</label>
                   <input
@@ -227,22 +227,24 @@
                     required
                   >
                 </div>
-                <div class="form-row">
+                <div class="form-group">
                   <label for="Range">Range</label>
-                  <div class="form-group">
+                  <div class="">
                     <input
                       type="number"
                       step="any"
                       name="range-from"
                       id="range-from"
+                      style="width:40%"
                       required
                     >
-                    <div class="text-align-center">To</div>
+                    To
                     <input
                       type="number"
                       step="any"
                       name="range-to"
                       id="range-to"
+                      style="width:40%"
                       required
                     >
                   </div>
@@ -267,7 +269,7 @@
                       <i class="fa-solid fa-trash"></i>
                     </span>
                   </div>
-                  <div class="">
+                  <div class="result">
                     <input type="text" name="result" id="result" />
                   </div>
                   <span

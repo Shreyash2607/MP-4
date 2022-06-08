@@ -56,13 +56,13 @@ async function getResults(event,flg) {
     console.log(load)
     var caliberation = document.getElementById('caliberation').value
     console.log(caliberation)
-    var hbvalue = document.getElementById('select-hb').value
-    console.log(hbvalue)
+    // var hbvalue = document.getElementById('select-hb').value
+    // console.log(hbvalue)
     var lowerRange = document.getElementById('range-from').value
     var higherRange = document.getElementById('range-to').value
     var filename = document.getElementById('file-name').value
     var output = ' '    
-
+    var hbvalue = 100
     // // single(caliberation,output,diameter_of_indenter,applied_load,HB_value,method,lower,upper)
     var res = await eel.getResults(caliberation,filename,indentor,load,hbvalue,lowerRange,higherRange,flg)()
     // console.log(res)

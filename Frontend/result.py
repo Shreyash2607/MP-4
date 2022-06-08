@@ -1,4 +1,5 @@
 import imp
+import time as tm
 import cv2
 from cv2 import minAreaRect
 import numpy as np
@@ -31,7 +32,9 @@ def calculate_HB(P,D,d):
     return num/den
 
 def single(input,calibration,filename,diameter_of_indenter,applied_load,HB_value,method,lower,upper,rno):
-    image = cv2.imread(input)
+    cv2.imwrite('Input2.jpg', input)
+    tm.sleep(2)
+    image = cv2.imread('0001.tif')
     originalImg = image
     aoriginalImg = image
     calibration = float(calibration)
@@ -167,6 +170,7 @@ def single(input,calibration,filename,diameter_of_indenter,applied_load,HB_value
                             Diameter_mb = Diameter_mc
                             #Calculating HB
                             HB = calculate_HB(applied_load,diameter_of_indenter,Diameter_mc)
+                            print("DIAMENTER: ",Diameter_mc)
                             if HB == -1:
                                 continue
                             HB = round(HB,4)
@@ -175,7 +179,7 @@ def single(input,calibration,filename,diameter_of_indenter,applied_load,HB_value
                             error = round(getPercentageError(HB_value,HB),4)
                     
                             #Printing Result in Form of Table
-                            if(error<20): 
+                            if(HB>=lower and HB<=upper): 
                                 #print(HB_value,'    ',HB,'        ',error, '        ',cv2.contourArea(c),'     ',cnt)
                                 #print(Diameter_pixels)
                                 #print(Diameter_mc)

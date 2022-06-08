@@ -152,8 +152,11 @@ def getR():
 
 @eel.expose
 def getResults(calibration,output,diameter_of_indenter,applied_load,HB_value,lower,upper,rno):
-    capFram = cv2.imread('0001.tif')
-    res = single('0001.tif',float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper),rno)
+    global capFram
+    cv2.imwrite('Input1.jpg', capFram)
+    # capFram = cv2.imread('0001.tif')
+    print(capFram)
+    res = single(capFram,float(calibration),output,float(diameter_of_indenter),float(applied_load),float(HB_value),'other',float(lower),float(upper),rno)
     print("RESULT",res)
     return res
 
@@ -216,6 +219,7 @@ def toupcamvideo_feed(flg):
         x.__del__()
         print(y)
         # img_name = "opencv_frame_{}.png".format(img_counter)
+        capFram = y
         cv2.imwrite('Input.jpg', y)
         myd = 'ADityafaa-aca'
         path = 'InputImages/' + date_time + '.jpg'
